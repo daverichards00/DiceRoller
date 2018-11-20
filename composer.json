@@ -1,0 +1,8 @@
+{
+  "name": "daverichards00/diceroller",
+  "autoload": {
+    "psr-4": {
+      "daverichards00\\DiceRoller": "src"
+    }
+  }
+}
