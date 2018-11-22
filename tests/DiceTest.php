@@ -1,6 +1,6 @@
 <?php
 
-namespace daverichards00\DiceRoller\Test;
+namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Dice;
 use PHPUnit\Framework\TestCase;

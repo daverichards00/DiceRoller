@@ -7,7 +7,7 @@ class Dice
     /** @var int */
     private $size;
 
-    /** @var int */
+    /** @var null|int */
     private $value;
 
     /** @var bool */
