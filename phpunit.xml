@@ -1,0 +1,5 @@
+<testsuites>
+    <testsuite name="daverichards00/DiceRoller Test Suite">
+        <directory>./tests</directory>
+    </testsuite>
+</testsuites>

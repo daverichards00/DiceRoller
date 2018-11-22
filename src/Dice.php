@@ -37,6 +37,14 @@ class Dice
     }
 
     /**
+     * @return bool
+     */
+    public function isStrong(): bool
+    {
+        return $this->strong;
+    }
+
+    /**
      * @param bool $quick
      * @return Dice
      */
@@ -44,6 +52,14 @@ class Dice
     {
         $this->strong = ! $quick;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isQuick(): bool
+    {
+        return ! $this->strong;
     }
 
     /**
