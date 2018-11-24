@@ -3,153 +3,106 @@
 namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Dice;
+use daverichards00\DiceRoller\RollerInterface;
+use daverichards00\DiceRoller\Rollers\QuickRoller;
 use PHPUnit\Framework\TestCase;
 
 class DiceTest extends TestCase
 {
-    public function diceSizeProvider()
+    /** @var Dice */
+    protected $sut;
+
+    protected $rollerMock;
+
+    public function setUp()
     {
-        return [
-            [2],
-            [6],
-            [20],
-            [100]
-        ];
+        parent::setUp();
+
+        $this->rollerMock = $this->getMockBuilder(RollerInterface::class)
+            ->getMock();
+
+        $this->rollerMock
+            ->expects($this->any())
+            ->method('roll')
+            ->willReturn(1);
+
+        $this->sut = new Dice(20, $this->rollerMock);
     }
 
     public function testDiceCanBeInstantiated()
     {
-        $dice = new Dice(2);
-        $this->assertInstanceOf(Dice::class, $dice);
+        $sut = new Dice(2);
+        $this->assertInstanceOf(Dice::class, $sut);
     }
 
     public function testDiceCanNotBeInstantiatedWithASizeSmallerThan2()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $dice = new Dice(1);
+        new Dice(1);
     }
 
-    public function testStrongFlagCanBeSet()
+    public function testDiceDefaultsToUseQuickRoller()
     {
-        $dice = new Dice(2);
-
-        $dice->strong(true);
-        $this->assertTrue($dice->isStrong());
-
-        $dice->strong(false);
-        $this->assertFalse($dice->isStrong());
-
-        $dice->strong();
-        $this->assertTrue($dice->isStrong());
+        $sut = new Dice(2);
+        $this->assertInstanceOf(QuickRoller::class, $sut->getRoller());
     }
 
-    public function testQuickFlagCanBeSet()
+    public function testDiceCanBeInstantiatedWithARoller()
     {
-        $dice = new Dice(2);
-
-        $dice->quick(true);
-        $this->assertTrue($dice->isQuick());
-
-        $dice->quick(false);
-        $this->assertFalse($dice->isQuick());
-
-        $dice->quick();
-        $this->assertTrue($dice->isQuick());
+        $this->assertSame($this->rollerMock, $this->sut->getRoller());
     }
 
-    public function testDefaultStrongValue()
+    public function testRollerCanBeSet()
     {
-        $dice = new Dice(2);
+        $rollerMock = $this->getMockBuilder(RollerInterface::class)->getMock();
 
-        $this->assertFalse($dice->isStrong());
-        $this->assertTrue($dice->isQuick());
+        $this->sut->setRoller($rollerMock);
+
+        $this->assertSame($rollerMock, $this->sut->getRoller());
     }
 
     public function testValueCanNotBeAccessedWithoutARoll()
     {
-        $dice = new Dice(2);
-
         $this->expectException(\RuntimeException::class);
-        $result = $dice->getValue();
+        $result = $this->sut->getValue();
     }
 
     public function testValueCanBeAccessedAfterARoll()
     {
-        $dice = new Dice(2);
+        $result = $this->sut
+            ->roll()
+            ->getValue();
 
-        $dice->roll();
-        $result = $dice->getValue();
-
-        $this->assertGreaterThanOrEqual(1, $result);
-        $this->assertLessThanOrEqual(2, $result);
+        $this->assertSame(1, $result);
     }
 
-    /**
-     * @dataProvider diceSizeProvider
-     */
-    public function testStrongRollReturnsValuesWithinCorrectRange($size)
+    public function testRollUsesTheCorrectRoller()
     {
-        $numberOfTests = $size * 20;
-
-        $dice = new Dice($size);
-
-        for ($i = 0; $i < $numberOfTests; $i++) {
-            $value = $dice
-                ->strongRoll()
-                ->getValue();
-
-            $this->assertGreaterThanOrEqual(1, $value);
-            $this->assertLessThanOrEqual($size, $value);
-        }
-    }
-
-    /**
-     * @dataProvider diceSizeProvider
-     */
-    public function testQuickRollReturnsValuesWithinCorrectRange($size)
-    {
-        $numberOfTests = $size * 20;
-
-        $dice = new Dice($size);
-
-        for ($i = 0; $i < $numberOfTests; $i++) {
-            $value = $dice
-                ->quickRoll()
-                ->getValue();
-
-            $this->assertGreaterThanOrEqual(1, $value);
-            $this->assertLessThanOrEqual($size, $value);
-        }
-    }
-
-    public function testRollUsesTheCorrectRollMethod()
-    {
-        $dice = $this->getMockBuilder(Dice::class)
-            ->setConstructorArgs([2])
-            ->setMethods(['strongRoll', 'quickRoll'])
+        $mockOne = $this->getMockBuilder(RollerInterface::class)
             ->getMock();
+        $mockOne
+            ->expects($this->once())
+            ->method('roll')
+            ->with(1, 20)
+            ->willReturn(5);
 
-        $resultDice = new Dice(2);
+        $this->sut->setRoller($mockOne);
+        $result = $this->sut->roll()->getValue();
 
-        // Roll forwards to strongRoll correctly
-        $dice->expects($this->once())
-            ->method('strongRoll')
-            ->with(10)
-            ->willReturn($resultDice);
+        $this->assertSame(5, $result);
 
-        $result = $dice->strong()->roll(10);
+        $mockTwo = $this->getMockBuilder(RollerInterface::class)
+            ->getMock();
+        $mockTwo
+            ->expects($this->once())
+            ->method('roll')
+            ->with(1, 20)
+            ->willReturn(10);
 
-        $this->assertSame($resultDice, $result);
+        $this->sut->setRoller($mockTwo);
+        $result = $this->sut->roll()->getValue();
 
-        // Roll forwards to quickRoll correctly
-        $dice->expects($this->once())
-            ->method('quickRoll')
-            ->with(20)
-            ->willReturn($resultDice);
-
-        $result = $dice->quick()->roll(20);
-
-        $this->assertSame($resultDice, $result);
+        $this->assertSame(10, $result);
     }
 
     public function validRollTimesProvider()
@@ -165,65 +118,14 @@ class DiceTest extends TestCase
     /**
      * @dataProvider validRollTimesProvider
      */
-    public function testStrongRollsMustBeAtLeastOneTime($times)
-    {
-        $dice = new Dice(2);
-
-        $result = $dice->strongRoll($times);
-
-        $this->assertInstanceOf(Dice::class, $result);
-    }
-
-    /**
-     * @dataProvider invalidRollTimesProvider
-     */
-    public function testStrongRollsCanNotBeLessThanOneTime($times)
-    {
-        $dice = new Dice(2);
-
-        $this->expectException(\InvalidArgumentException::class);
-        $dice->strongRoll($times);
-    }
-
-    /**
-     * @dataProvider validRollTimesProvider
-     */
-    public function testQuickRollsMustBeAtLeastOneTime($times)
-    {
-        $dice = new Dice(2);
-
-        $result = $dice->quickRoll($times);
-
-        $this->assertInstanceOf(Dice::class, $result);
-    }
-
-    /**
-     * @dataProvider invalidRollTimesProvider
-     */
-    public function testQuickRollsCanNotBeLessThanOneTime($times)
-    {
-        $dice = new Dice(2);
-
-        $this->expectException(\InvalidArgumentException::class);
-        $dice->quickRoll($times);
-    }
-
-    /**
-     * @dataProvider validRollTimesProvider
-     */
     public function testRollsMustBeAtLeastOneTime($times)
     {
-        $dice = $this->getMockBuilder(Dice::class)
-            ->setConstructorArgs([2])
-            ->setMethods(['strongRoll', 'quickRoll'])
-            ->getMock();
+        $this->rollerMock
+            ->expects($this->exactly($times))
+            ->method('roll')
+            ->willReturn(1);
 
-        // Roll forwards to strongRoll correctly
-        $dice->expects($this->once())
-            ->method('quickRoll')
-            ->willReturn(new Dice(2));
-
-        $result = $dice->quick()->roll($times);
+        $this->sut->roll($times);
     }
 
     /**
@@ -231,84 +133,76 @@ class DiceTest extends TestCase
      */
     public function testRollsCanNotBeLessThanOneTime($times)
     {
-        $dice = new Dice(2);
-
         $this->expectException(\InvalidArgumentException::class);
-        $dice->roll($times);
+        $this->sut->roll($times);
     }
 
     public function testHistoryCanBeToggled()
     {
-        $dice = new Dice(6);
-
         // Default
-        $this->assertFalse($dice->isHistoryEnabled());
+        $this->assertFalse($this->sut->isHistoryEnabled());
 
         // Enable history
-        $dice->enableHistory();
-        $this->assertTrue($dice->isHistoryEnabled());
+        $this->sut->enableHistory();
+        $this->assertTrue($this->sut->isHistoryEnabled());
 
         // Disable history
-        $dice->disableHistory();
-        $this->assertFalse($dice->isHistoryEnabled());
+        $this->sut->disableHistory();
+        $this->assertFalse($this->sut->isHistoryEnabled());
 
         // Enable history
-        $dice->disableHistory(false);
-        $this->assertTrue($dice->isHistoryEnabled());
+        $this->sut->disableHistory(false);
+        $this->assertTrue($this->sut->isHistoryEnabled());
 
         // Disable history
-        $dice->enableHistory(false);
-        $this->assertFalse($dice->isHistoryEnabled());
+        $this->sut->enableHistory(false);
+        $this->assertFalse($this->sut->isHistoryEnabled());
     }
 
     public function testHistoryReturnsPreviousRolls()
     {
-        $dice = new Dice(20);
-        $dice->enableHistory();
+        $this->sut->enableHistory();
 
         $sizeOfHistoryToTest = 20;
         $expectedHistory = [];
 
         for ($i = 0; $i < $sizeOfHistoryToTest; $i++) {
-            $expectedHistory[] = $dice->roll()->getValue();
+            $expectedHistory[] = $this->sut->roll()->getValue();
         }
 
-        $this->assertSame($expectedHistory, $dice->getHistory());
+        $this->assertSame($expectedHistory, $this->sut->getHistory());
     }
 
     public function testHistoryCanBeCleared()
     {
-        $dice = new Dice(2);
-        $dice->enableHistory();
+        $this->sut->enableHistory();
 
-        $dice->roll(6);
+        $this->sut->roll(6);
 
-        $this->assertSame(6, count($dice->getHistory()));
+        $this->assertSame(6, count($this->sut->getHistory()));
 
-        $dice->clearHistory();
+        $this->sut->clearHistory();
 
-        $this->assertSame([], $dice->getHistory());
+        $this->assertSame([], $this->sut->getHistory());
     }
 
     public function testHistoryCanBeOptional()
     {
-        $dice = new Dice(2);
-
-        $dice->enableHistory()
+        $this->sut->enableHistory()
             ->roll(6);
-        $this->assertSame(6, count($dice->getHistory()));
+        $this->assertSame(6, count($this->sut->getHistory()));
 
-        $dice->disableHistory()
+        $this->sut->disableHistory()
             ->roll(6);
-        $this->assertSame(6, count($dice->getHistory()));
+        $this->assertSame(6, count($this->sut->getHistory()));
 
-        $dice->enableHistory()
+        $this->sut->enableHistory()
             ->roll(6);
-        $this->assertSame(12, count($dice->getHistory()));
+        $this->assertSame(12, count($this->sut->getHistory()));
 
-        $dice->clearHistory()
+        $this->sut->clearHistory()
             ->disableHistory()
             ->roll(6);
-        $this->assertSame(0, count($dice->getHistory()));
+        $this->assertSame(0, count($this->sut->getHistory()));
     }
 }

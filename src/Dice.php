@@ -1,13 +1,18 @@
 <?php
 
-// TODO: Custom random functions
 // TODO: Custom Dice sides
+// TODO: Custom runtime exceptions
 // TODO: Readme
 
 namespace daverichards00\DiceRoller;
 
+use daverichards00\DiceRoller\Rollers;
+
 class Dice
 {
+    /** @var RollerInterface */
+    private $roller;
+
     /** @var int */
     private $size;
 
@@ -20,56 +25,41 @@ class Dice
     /** @var array */
     private $history = [];
 
-    /** @var bool */
-    private $strong = false;
-
     /**
      * Dice constructor.
      * @param int $size
+     * @param RollerInterface $roller
      */
-    public function __construct(int $size)
+    public function __construct(int $size, RollerInterface $roller = null)
     {
         if ($size < 2) {
             throw new \InvalidArgumentException("A Dice must have a size of at least 2");
         }
-
         $this->size = $size;
+
+        if (empty($roller)) {
+            // Default: QuickRoller
+            $roller = new Rollers\QuickRoller();
+        }
+        $this->setRoller($roller);
     }
 
     /**
-     * @param bool $strong
+     * @param RollerInterface $roller
      * @return Dice
      */
-    public function strong(bool $strong = true): self
+    public function setRoller(RollerInterface $roller): self
     {
-        $this->strong = $strong;
+        $this->roller = $roller;
         return $this;
     }
 
     /**
-     * @return bool
+     * @return RollerInterface
      */
-    public function isStrong(): bool
+    public function getRoller(): RollerInterface
     {
-        return $this->strong;
-    }
-
-    /**
-     * @param bool $quick
-     * @return Dice
-     */
-    public function quick(bool $quick = true): self
-    {
-        $this->strong = ! $quick;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isQuick(): bool
-    {
-        return ! $this->strong;
+        return $this->roller;
     }
 
     /**
@@ -83,47 +73,9 @@ class Dice
             throw new \InvalidArgumentException("A Dice must be rolled at least 1 time.");
         }
 
-        if ($this->strong) {
-            return $this->strongRoll($times);
-        }
-
-        return $this->quickRoll($times);
-    }
-
-    /**
-     * @param int $times
-     * @return Dice
-     * @throws \Exception
-     */
-    public function quickRoll(int $times = 1): self
-    {
-        if ($times < 1) {
-            throw new \InvalidArgumentException("A Dice must be rolled at least 1 time.");
-        }
-
         while ($times--) {
             $this->setValue(
-                mt_rand(1, $this->size)
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param int $times
-     * @return Dice
-     * @throws \Exception
-     */
-    public function strongRoll(int $times = 1): self
-    {
-        if ($times < 1) {
-            throw new \InvalidArgumentException("A Dice must be rolled at least 1 time.");
-        }
-
-        while ($times--) {
-            $this->setValue(
-                random_int(1, $this->size)
+                $this->getRoller()->roll(1, $this->size)
             );
         }
 
