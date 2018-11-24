@@ -1,5 +1,9 @@
 <?php
 
+// TODO: Custom random functions
+// TODO: Custom Dice sides
+// TODO: Readme
+
 namespace daverichards00\DiceRoller;
 
 class Dice
@@ -9,6 +13,12 @@ class Dice
 
     /** @var null|int */
     private $value;
+
+    /** @var bool */
+    private $historyEnabled = false;
+
+    /** @var array */
+    private $history = [];
 
     /** @var bool */
     private $strong = false;
@@ -92,7 +102,9 @@ class Dice
         }
 
         while ($times--) {
-            $this->value = mt_rand(1, $this->size);
+            $this->setValue(
+                mt_rand(1, $this->size)
+            );
         }
 
         return $this;
@@ -110,7 +122,24 @@ class Dice
         }
 
         while ($times--) {
-            $this->value = random_int(1, $this->size);
+            $this->setValue(
+                random_int(1, $this->size)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param int $value
+     * @return Dice
+     */
+    private function setValue(int $value): self
+    {
+        $this->value = $value;
+
+        if ($this->isHistoryEnabled()) {
+            $this->addHistory($this->value);
         }
 
         return $this;
@@ -127,5 +156,60 @@ class Dice
         }
 
         return $this->value;
+    }
+
+    /**
+     * @param bool $enabled
+     * @return Dice
+     */
+    public function enableHistory(bool $enabled = true): self
+    {
+        $this->historyEnabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @param bool $disabled
+     * @return Dice
+     */
+    public function disableHistory(bool $disabled = true): self
+    {
+        $this->historyEnabled = ! $disabled;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHistoryEnabled(): bool
+    {
+        return $this->historyEnabled;
+    }
+
+    /**
+     * @param int $value
+     * @return Dice
+     */
+    private function addHistory(int $value): self
+    {
+        $this->history[] = $value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHistory(): array
+    {
+        return $this->history;
+    }
+
+    /**
+     * @return Dice
+     */
+    public function clearHistory(): self
+    {
+        $this->history = [];
+        return $this;
     }
 }

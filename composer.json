@@ -27,7 +27,7 @@
       "./vendor/bin/parallel-lint . --exclude vendor",
       "./vendor/bin/phpunit -c phpunit.xml.dist",
       "./vendor/bin/phpcs --standard=PSR2 --ignore=./vendor/* .",
-      "./vendor/bin/phpstan analyse src tests --level=max"
+      "./vendor/bin/phpstan analyse src --level=max"
     ],
     "phpcbf": [
       "./vendor/bin/phpcbf --standard=PSR2 --ignore=./vendor/* ."
