@@ -58,6 +58,12 @@ class DiceSidesTest extends TestCase
         $this->assertSame('c', $result);
     }
 
+    public function testExceptionThrownWhenTryingToGetWithAnInvalidIndex()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->sut->getValue(999);
+    }
+
     public function testSidesCanBeAdded()
     {
         $this->sut->add('d');
