@@ -29,23 +29,28 @@ class Dice
      * Dice constructor.
      * @param mixed $sides
      * @param RollerInterface $roller
+     * @throws \Exception
      */
     public function __construct($sides, RollerInterface $roller = null)
     {
-        if (is_int($sides)) {
-            $sides = new DiceSides(
-                range(1, $sides)
-            );
-        }
+        $this->setSides($sides);
 
-        if (is_array($sides)) {
-            $sides = new DiceSides($sides);
+        if (empty($roller)) {
+            // Default: QuickRoller
+            $roller = new Rollers\QuickRoller();
         }
+        $this->setRoller($roller);
+    }
 
+    /**
+     * @param mixed $sides
+     * @return Dice
+     * @throws \Exception
+     */
+    public function setSides($sides): self
+    {
         if (! ($sides instanceof DiceSides)) {
-            throw new \InvalidArgumentException(
-                sprintf("Sides of a Dice must be an Int, Array or instance of DiceSides, %s provided.", gettype($sides))
-            );
+            $sides = DiceSidesFactory::create($sides);
         }
 
         if (count($sides) < 2) {
@@ -53,12 +58,15 @@ class Dice
         }
 
         $this->sides = $sides;
+        return $this;
+    }
 
-        if (empty($roller)) {
-            // Default: QuickRoller
-            $roller = new Rollers\QuickRoller();
-        }
-        $this->setRoller($roller);
+    /**
+     * @return DiceSides
+     */
+    public function getSides(): DiceSides
+    {
+        return $this->sides;
     }
 
     /**
