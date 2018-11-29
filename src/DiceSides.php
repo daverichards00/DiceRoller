@@ -4,7 +4,7 @@ namespace daverichards00\DiceRoller;
 
 class DiceSides implements \Countable, \Iterator
 {
-    /** @var array */
+    /** @var DiceSide[] */
     private $sides = [];
 
     /**
@@ -39,13 +39,7 @@ class DiceSides implements \Countable, \Iterator
      */
     public function add($value): self
     {
-        if (! is_scalar($value)) {
-            throw new \InvalidArgumentException(
-                sprintf("A Dice Side must be a scalar, %s given", gettype($value))
-            );
-        }
-
-        $this->sides[] = $value;
+        $this->sides[] = new DiceSide($value);
 
         return $this;
     }
@@ -59,12 +53,22 @@ class DiceSides implements \Countable, \Iterator
     }
 
     /**
+     * @return array
+     */
+    public function getAllValues(): array
+    {
+        return array_map(function (DiceSide $diceSide) {
+            return $diceSide->getValue();
+        }, $this->sides);
+    }
+
+    /**
      * @param int $index
      * @return mixed
      */
-    public function get(int $index)
+    public function getValue(int $index)
     {
-        return $this->sides[$index];
+        return $this->sides[$index]->getValue();
     }
 
     /**
@@ -80,7 +84,7 @@ class DiceSides implements \Countable, \Iterator
      */
     public function current()
     {
-        return current($this->sides);
+        return current($this->sides)->getValue();
     }
 
     /**

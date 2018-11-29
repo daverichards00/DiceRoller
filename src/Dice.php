@@ -102,7 +102,7 @@ class Dice
 
         while ($times--) {
             $this->setValue(
-                $this->sides->get(
+                $this->sides->getValue(
                     $this->getRoller()->roll(1, $numberOfSides) - 1
                 )
             );

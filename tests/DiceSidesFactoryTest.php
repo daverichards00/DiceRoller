@@ -14,7 +14,7 @@ class DiceSidesFactoryTest extends TestCase
 
         $this->assertInstanceOf(DiceSides::class, $sides);
         $this->assertSame(6, count($sides));
-        $this->assertSame([1, 2, 3, 4, 5, 6], $sides->getAll());
+        $this->assertSame([1, 2, 3, 4, 5, 6], $sides->getAllValues());
     }
 
     public function testDiceSidesFactoryCanCreateFromArrayOfInts()
@@ -23,7 +23,7 @@ class DiceSidesFactoryTest extends TestCase
 
         $this->assertInstanceOf(DiceSides::class, $sides);
         $this->assertSame(3, count($sides));
-        $this->assertSame([2, 4, 6], $sides->getAll());
+        $this->assertSame([2, 4, 6], $sides->getAllValues());
     }
 
     public function testDiceSidesFactoryCanCreateFromArrayOfStrings()
@@ -32,7 +32,7 @@ class DiceSidesFactoryTest extends TestCase
 
         $this->assertInstanceOf(DiceSides::class, $sides);
         $this->assertSame(3, count($sides));
-        $this->assertSame(['red', 'blue', 'green'], $sides->getAll());
+        $this->assertSame(['red', 'blue', 'green'], $sides->getAllValues());
     }
 
     public function testInvalidArgumentThrownForInvalidParameterType()

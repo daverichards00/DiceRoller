@@ -2,6 +2,7 @@
 
 namespace daverichards00\DiceRollerTest;
 
+use daverichards00\DiceRoller\DiceSide;
 use daverichards00\DiceRoller\DiceSides;
 use PHPUnit\Framework\TestCase;
 
@@ -33,15 +34,27 @@ class DiceSidesTest extends TestCase
     public function testAllSidesCanBeRetrieved()
     {
         $result = $this->sut->getAll();
+
+        $this->assertInstanceOf(DiceSide::class, $result[0]);
+        $this->assertSame('a', $result[0]->getValue());
+        $this->assertInstanceOf(DiceSide::class, $result[1]);
+        $this->assertSame('b', $result[1]->getValue());
+        $this->assertInstanceOf(DiceSide::class, $result[2]);
+        $this->assertSame('c', $result[2]->getValue());
+    }
+
+    public function testAllValuesCanBeRetrieved()
+    {
+        $result = $this->sut->getAllValues();
         $this->assertSame(['a', 'b', 'c'], $result);
     }
 
     public function testSideCanBeRetrievedByIndex()
     {
-        $result = $this->sut->get(0);
+        $result = $this->sut->getValue(0);
         $this->assertSame('a', $result);
 
-        $result = $this->sut->get(2);
+        $result = $this->sut->getValue(2);
         $this->assertSame('c', $result);
     }
 
@@ -55,10 +68,10 @@ class DiceSidesTest extends TestCase
     {
         $expected = ['d', 'e', 'f'];
         $this->sut->set($expected);
-        $this->assertSame($expected, $this->sut->getAll());
+        $this->assertSame($expected, $this->sut->getAllValues());
 
         $expected = [1, 2, 3];
         $this->sut->set($expected);
-        $this->assertSame($expected, $this->sut->getAll());
+        $this->assertSame($expected, $this->sut->getAllValues());
     }
 }
