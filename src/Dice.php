@@ -13,8 +13,8 @@ class Dice
     /** @var RollerInterface */
     private $roller;
 
-    /** @var int */
-    private $size;
+    /** @var DiceSides */
+    private $sides;
 
     /** @var null|int */
     private $value;
@@ -27,15 +27,32 @@ class Dice
 
     /**
      * Dice constructor.
-     * @param int $size
+     * @param mixed $sides
      * @param RollerInterface $roller
      */
-    public function __construct(int $size, RollerInterface $roller = null)
+    public function __construct($sides, RollerInterface $roller = null)
     {
-        if ($size < 2) {
-            throw new \InvalidArgumentException("A Dice must have a size of at least 2");
+        if (is_int($sides)) {
+            $sides = new DiceSides(
+                range(1, $sides)
+            );
         }
-        $this->size = $size;
+
+        if (is_array($sides)) {
+            $sides = new DiceSides($sides);
+        }
+
+        if (! ($sides instanceof DiceSides)) {
+            throw new \InvalidArgumentException(
+                sprintf("Sides of a Dice must be an Int, Array or instance of DiceSides, %s provided.", gettype($sides))
+            );
+        }
+
+        if (count($sides) < 2) {
+            throw new \InvalidArgumentException("A Dice must have at least 2 sides.");
+        }
+
+        $this->sides = $sides;
 
         if (empty($roller)) {
             // Default: QuickRoller
@@ -73,9 +90,13 @@ class Dice
             throw new \InvalidArgumentException("A Dice must be rolled at least 1 time.");
         }
 
+        $numberOfSides = count($this->sides);
+
         while ($times--) {
             $this->setValue(
-                $this->getRoller()->roll(1, $this->size)
+                $this->sides->get(
+                    $this->getRoller()->roll(1, $numberOfSides) - 1
+                )
             );
         }
 

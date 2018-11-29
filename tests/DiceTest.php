@@ -78,28 +78,28 @@ class DiceTest extends TestCase
 
     public function testRollUsesTheCorrectRoller()
     {
-        $mockOne = $this->getMockBuilder(RollerInterface::class)
+        $rollerMockOne = $this->getMockBuilder(RollerInterface::class)
             ->getMock();
-        $mockOne
+        $rollerMockOne
             ->expects($this->once())
             ->method('roll')
             ->with(1, 20)
             ->willReturn(5);
 
-        $this->sut->setRoller($mockOne);
+        $this->sut->setRoller($rollerMockOne);
         $result = $this->sut->roll()->getValue();
 
         $this->assertSame(5, $result);
 
-        $mockTwo = $this->getMockBuilder(RollerInterface::class)
+        $rollerMockTwo = $this->getMockBuilder(RollerInterface::class)
             ->getMock();
-        $mockTwo
+        $rollerMockTwo
             ->expects($this->once())
             ->method('roll')
             ->with(1, 20)
             ->willReturn(10);
 
-        $this->sut->setRoller($mockTwo);
+        $this->sut->setRoller($rollerMockTwo);
         $result = $this->sut->roll()->getValue();
 
         $this->assertSame(10, $result);
