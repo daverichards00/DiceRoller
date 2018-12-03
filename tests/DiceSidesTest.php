@@ -52,17 +52,28 @@ class DiceSidesTest extends TestCase
 
     public function testSideCanBeRetrievedByIndex()
     {
-        $result = $this->sut->getValue(0);
+        $result = $this->sut->getByIndex(0);
+        $this->assertInstanceOf(DiceSide::class, $result);
+        $this->assertSame('a', $result->getValue());
+
+        $result = $this->sut->getByIndex(2);
+        $this->assertInstanceOf(DiceSide::class, $result);
+        $this->assertSame('c', $result->getValue());
+    }
+
+    public function testSideValueCanBeRetrievedByIndex()
+    {
+        $result = $this->sut->getValueByIndex(0);
         $this->assertSame('a', $result);
 
-        $result = $this->sut->getValue(2);
+        $result = $this->sut->getValueByIndex(2);
         $this->assertSame('c', $result);
     }
 
     public function testExceptionThrownWhenTryingToGetWithAnInvalidIndex()
     {
         $this->expectException(DiceException::class);
-        $this->sut->getValue(999);
+        $this->sut->getValueByIndex(999);
     }
 
     public function testSidesCanBeAdded()

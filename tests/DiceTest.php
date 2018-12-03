@@ -68,13 +68,37 @@ class DiceTest extends TestCase
         $result = $this->sut->getValue();
     }
 
-    public function testValueCanBeAccessedAfterARoll()
+    public function testIntegerValueCanBeAccessedAfterARoll()
     {
         $result = $this->sut
             ->roll()
             ->getValue();
 
         $this->assertSame(1, $result);
+    }
+
+    public function testStringValueCanBeAccessedAfterRoll()
+    {
+        $diceSides = ['red', 'blue', 'green'];
+        $dice = new Dice($diceSides);
+
+        $result = $dice
+            ->roll()
+            ->getValue();
+
+        $this->assertContains($result, $diceSides);
+    }
+
+    public function testFloatValueCanBeAccessedAfterRoll()
+    {
+        $diceSides = [1.1, 2.23, 9.99, 1000.001];
+        $dice = new Dice($diceSides);
+
+        $result = $dice
+            ->roll()
+            ->getValue();
+
+        $this->assertContains($result, $diceSides);
     }
 
     public function testRollUsesTheCorrectRoller()

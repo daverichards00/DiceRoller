@@ -67,10 +67,25 @@ class DiceSides implements \Countable, \Iterator
 
     /**
      * @param int $index
+     * @return DiceSide
+     * @throws DiceException
+     */
+    public function getByIndex(int $index): DiceSide
+    {
+        if (! array_key_exists($index, $this->sides)) {
+            throw new DiceException(
+                sprintf("DiceSides does not contain a DiceSide at index %d", $index)
+            );
+        }
+        return $this->sides[$index];
+    }
+
+    /**
+     * @param int $index
      * @return mixed
      * @throws DiceException
      */
-    public function getValue(int $index)
+    public function getValueByIndex(int $index)
     {
         if (! array_key_exists($index, $this->sides)) {
             throw new DiceException(

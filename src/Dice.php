@@ -100,7 +100,7 @@ class Dice
 
         while ($times--) {
             $this->setValue(
-                $this->sides->getValue(
+                $this->sides->getByIndex(
                     $this->getRoller()->roll(1, $numberOfSides) - 1
                 )
             );
@@ -110,25 +110,25 @@ class Dice
     }
 
     /**
-     * @param int $value
+     * @param DiceSide $diceSide
      * @return Dice
      */
-    private function setValue(int $value): self
+    private function setValue(DiceSide $diceSide): self
     {
-        $this->value = $value;
+        $this->value = $diceSide->getValue();
 
         if ($this->isHistoryEnabled()) {
-            $this->addHistory($this->value);
+            $this->addHistory($diceSide);
         }
 
         return $this;
     }
 
     /**
-     * @return int
+     * @return mixed
      * @throws DiceException
      */
-    public function getValue(): int
+    public function getValue()
     {
         if (is_null($this->value)) {
             throw new DiceException("Cannot get the value of a Dice that hasn't been rolled.");
@@ -166,12 +166,12 @@ class Dice
     }
 
     /**
-     * @param int $value
+     * @param DiceSide $diceSide
      * @return Dice
      */
-    private function addHistory(int $value): self
+    private function addHistory(DiceSide $diceSide): self
     {
-        $this->history[] = $value;
+        $this->history[] = $diceSide;
         return $this;
     }
 
@@ -180,7 +180,9 @@ class Dice
      */
     public function getHistory(): array
     {
-        return $this->history;
+        return array_map(function (DiceSide $diceSide) {
+            return $diceSide->getValue();
+        }, $this->history);
     }
 
     /**
