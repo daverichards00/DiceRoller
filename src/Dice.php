@@ -1,7 +1,5 @@
 <?php
 
-// TODO: Readme
-
 namespace daverichards00\DiceRoller;
 
 use daverichards00\DiceRoller\Rollers;
