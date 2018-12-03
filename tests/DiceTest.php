@@ -3,6 +3,7 @@
 namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Dice;
+use daverichards00\DiceRoller\DiceException;
 use daverichards00\DiceRoller\RollerInterface;
 use daverichards00\DiceRoller\Rollers\QuickRoller;
 use PHPUnit\Framework\TestCase;
@@ -63,7 +64,7 @@ class DiceTest extends TestCase
 
     public function testValueCanNotBeAccessedWithoutARoll()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(DiceException::class);
         $result = $this->sut->getValue();
     }
 

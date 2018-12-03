@@ -1,7 +1,5 @@
 <?php
 
-// TODO: Custom Dice sides
-// TODO: Custom runtime exceptions
 // TODO: Readme
 
 namespace daverichards00\DiceRoller;
@@ -29,7 +27,7 @@ class Dice
      * Dice constructor.
      * @param mixed $sides
      * @param RollerInterface $roller
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function __construct($sides, RollerInterface $roller = null)
     {
@@ -45,7 +43,7 @@ class Dice
     /**
      * @param mixed $sides
      * @return Dice
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function setSides($sides): self
     {
@@ -90,7 +88,7 @@ class Dice
     /**
      * @param int $times
      * @return Dice
-     * @throws \Exception
+     * @throws \InvalidArgumentException|DiceException
      */
     public function roll($times = 1): self
     {
@@ -128,12 +126,12 @@ class Dice
 
     /**
      * @return int
-     * @throws \Exception
+     * @throws DiceException
      */
     public function getValue(): int
     {
         if (is_null($this->value)) {
-            throw new \RuntimeException("Cannot get the value of a Dice that hasn't been rolled.");
+            throw new DiceException("Cannot get the value of a Dice that hasn't been rolled.");
         }
 
         return $this->value;

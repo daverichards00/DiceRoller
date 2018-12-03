@@ -10,6 +10,7 @@ class DiceSides implements \Countable, \Iterator
     /**
      * DiceSides constructor.
      * @param array $sides
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $sides = [])
     {
@@ -21,6 +22,7 @@ class DiceSides implements \Countable, \Iterator
     /**
      * @param array $sides
      * @return DiceSides
+     * @throws \InvalidArgumentException
      */
     public function set(array $sides): self
     {
@@ -36,6 +38,7 @@ class DiceSides implements \Countable, \Iterator
     /**
      * @param mixed $value
      * @return DiceSides
+     * @throws \InvalidArgumentException
      */
     public function add($value): self
     {
@@ -65,12 +68,12 @@ class DiceSides implements \Countable, \Iterator
     /**
      * @param int $index
      * @return mixed
-     * @throws \RuntimeException
+     * @throws DiceException
      */
     public function getValue(int $index)
     {
         if (! array_key_exists($index, $this->sides)) {
-            throw new \RuntimeException(
+            throw new DiceException(
                 sprintf("DiceSides does not contain a DiceSide at index %d", $index)
             );
         }

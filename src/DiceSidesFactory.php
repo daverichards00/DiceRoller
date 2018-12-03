@@ -7,7 +7,7 @@ class DiceSidesFactory
     /**
      * @param mixed $sides
      * @return DiceSides
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public static function create($sides): DiceSides
     {

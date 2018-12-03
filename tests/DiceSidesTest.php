@@ -2,6 +2,7 @@
 
 namespace daverichards00\DiceRollerTest;
 
+use daverichards00\DiceRoller\DiceException;
 use daverichards00\DiceRoller\DiceSide;
 use daverichards00\DiceRoller\DiceSides;
 use PHPUnit\Framework\TestCase;
@@ -60,7 +61,7 @@ class DiceSidesTest extends TestCase
 
     public function testExceptionThrownWhenTryingToGetWithAnInvalidIndex()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(DiceException::class);
         $this->sut->getValue(999);
     }
 
