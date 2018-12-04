@@ -2,9 +2,9 @@
 
 namespace daverichards00\DiceRollerTest;
 
-use daverichards00\DiceRoller\DiceException;
-use daverichards00\DiceRoller\DiceSide;
-use daverichards00\DiceRoller\DiceSides;
+use daverichards00\DiceRoller\Exception\DiceException;
+use daverichards00\DiceRoller\Side\DiceSide;
+use daverichards00\DiceRoller\Side\DiceSides;
 use PHPUnit\Framework\TestCase;
 
 class DiceSidesTest extends TestCase

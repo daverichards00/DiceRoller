@@ -2,7 +2,7 @@
 
 namespace daverichards00\DiceRollerTest;
 
-use daverichards00\DiceRoller\DiceSide;
+use daverichards00\DiceRoller\Side\DiceSide;
 use PHPUnit\Framework\TestCase;
 
 class DiceSideTest extends TestCase

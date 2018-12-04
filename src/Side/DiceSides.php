@@ -1,6 +1,8 @@
 <?php
 
-namespace daverichards00\DiceRoller;
+namespace daverichards00\DiceRoller\Side;
+
+use daverichards00\DiceRoller\Exception\DiceException;
 
 class DiceSides implements \Countable, \Iterator
 {

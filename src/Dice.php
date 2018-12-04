@@ -2,7 +2,12 @@
 
 namespace daverichards00\DiceRoller;
 
-use daverichards00\DiceRoller\Rollers;
+use daverichards00\DiceRoller\Exception\DiceException;
+use daverichards00\DiceRoller\Roller;
+use daverichards00\DiceRoller\Roller\RollerInterface;
+use daverichards00\DiceRoller\Side\DiceSide;
+use daverichards00\DiceRoller\Side\DiceSides;
+use daverichards00\DiceRoller\Side\DiceSidesFactory;
 
 class Dice
 {
@@ -33,7 +38,7 @@ class Dice
 
         if (empty($roller)) {
             // Default: QuickRoller
-            $roller = new Rollers\QuickRoller();
+            $roller = new Roller\QuickRoller();
         }
         $this->setRoller($roller);
     }

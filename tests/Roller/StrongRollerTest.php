@@ -1,9 +1,10 @@
 <?php
 
-namespace daverichards00\DiceRollerTest\Rollers;
+namespace daverichards00\DiceRollerTest\Roller;
 
-use daverichards00\DiceRoller\RollerInterface;
-use daverichards00\DiceRoller\Rollers\StrongRoller;
+use daverichards00\DiceRoller\Exception\DiceException;
+use daverichards00\DiceRoller\Roller\RollerInterface;
+use daverichards00\DiceRoller\Roller\StrongRoller;
 use PHPUnit\Framework\TestCase;
 
 class StrongRollerTest extends TestCase
@@ -46,5 +47,11 @@ class StrongRollerTest extends TestCase
             $this->assertGreaterThanOrEqual(1, $value);
             $this->assertLessThanOrEqual($size, $value);
         }
+    }
+
+    public function testDiceExceptionThrownWhenMaxLessThanMin()
+    {
+        $this->expectException(DiceException::class);
+        $this->sut->roll(2, 1);
     }
 }

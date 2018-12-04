@@ -1,6 +1,8 @@
 <?php
 
-namespace daverichards00\DiceRoller;
+namespace daverichards00\DiceRoller\Roller;
+
+use daverichards00\DiceRoller\Exception\DiceException;
 
 interface RollerInterface
 {
@@ -8,7 +10,7 @@ interface RollerInterface
      * @param int $min
      * @param int $max
      * @return int
-     * @throws \Exception
+     * @throws DiceException
      */
     public function roll(int $min, int $max): int;
 }

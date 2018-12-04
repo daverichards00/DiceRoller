@@ -1,8 +1,6 @@
 <?php
 
-namespace daverichards00\DiceRoller\Rollers;
-
-use daverichards00\DiceRoller\RollerInterface;
+namespace daverichards00\DiceRoller\Roller;
 
 class QuickRoller implements RollerInterface
 {

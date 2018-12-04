@@ -1,6 +1,6 @@
 <?php
 
-namespace daverichards00\DiceRoller;
+namespace daverichards00\DiceRoller\Side;
 
 class DiceSidesFactory
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace daverichards00\DiceRollerTest\Rollers;
+namespace daverichards00\DiceRollerTest\Roller;
 
-use daverichards00\DiceRoller\RollerInterface;
-use daverichards00\DiceRoller\Rollers\QuickRoller;
+use daverichards00\DiceRoller\Roller\RollerInterface;
+use daverichards00\DiceRoller\Roller\QuickRoller;
 use PHPUnit\Framework\TestCase;
 
 class QuickRollerTest extends TestCase

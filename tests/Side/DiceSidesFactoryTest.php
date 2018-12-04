@@ -2,8 +2,8 @@
 
 namespace daverichards00\DiceRollerTest;
 
-use daverichards00\DiceRoller\DiceSides;
-use daverichards00\DiceRoller\DiceSidesFactory;
+use daverichards00\DiceRoller\Side\DiceSides;
+use daverichards00\DiceRoller\Side\DiceSidesFactory;
 use PHPUnit\Framework\TestCase;
 
 class DiceSidesFactoryTest extends TestCase

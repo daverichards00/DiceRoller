@@ -3,9 +3,9 @@
 namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Dice;
-use daverichards00\DiceRoller\DiceException;
-use daverichards00\DiceRoller\RollerInterface;
-use daverichards00\DiceRoller\Rollers\QuickRoller;
+use daverichards00\DiceRoller\Exception\DiceException;
+use daverichards00\DiceRoller\Roller\RollerInterface;
+use daverichards00\DiceRoller\Roller\QuickRoller;
 use PHPUnit\Framework\TestCase;
 
 class DiceTest extends TestCase
