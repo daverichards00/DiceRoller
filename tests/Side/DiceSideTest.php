@@ -24,4 +24,22 @@ class DiceSideTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $sut = new DiceSide([1, 2, 3]);
     }
+
+    public function testIntValuesTreatedAsNumeric()
+    {
+        $sut = new DiceSide(6);
+        $this->assertTrue($sut->isNumeric());
+    }
+
+    public function testFloatValuesTreatedAsNumeric()
+    {
+        $sut = new DiceSide(2.2);
+        $this->assertTrue($sut->isNumeric());
+    }
+
+    public function testStringValuesTreatedAsNumeric()
+    {
+        $sut = new DiceSide('Purple');
+        $this->assertFalse($sut->isNumeric());
+    }
 }

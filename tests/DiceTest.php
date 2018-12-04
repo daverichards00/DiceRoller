@@ -230,4 +230,22 @@ class DiceTest extends TestCase
             ->roll(6);
         $this->assertSame(0, count($this->sut->getHistory()));
     }
+
+    public function testIsNumericReturnsCorrectValue()
+    {
+        $sut = new Dice(6);
+        $this->assertTrue($sut->isNumeric());
+
+        $sut = new Dice([2, 4, 6]);
+        $this->assertTrue($sut->isNumeric());
+
+        $sut = new Dice([2.2, 4.4, 6.6]);
+        $this->assertTrue($sut->isNumeric());
+
+        $sut = new Dice(['Red', 'Green', 'Blue']);
+        $this->assertFalse($sut->isNumeric());
+
+        $sut = new Dice([1, 2, 'Blue']);
+        $this->assertFalse($sut->isNumeric());
+    }
 }

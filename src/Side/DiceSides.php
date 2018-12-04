@@ -9,6 +9,9 @@ class DiceSides implements \Countable, \Iterator
     /** @var DiceSide[] */
     private $sides = [];
 
+    /** @var bool */
+    private $isNumeric = true;
+
     /**
      * DiceSides constructor.
      * @param array $sides
@@ -29,6 +32,7 @@ class DiceSides implements \Countable, \Iterator
     public function set(array $sides): self
     {
         $this->sides = [];
+        $this->isNumeric = true;
 
         foreach ($sides as $side) {
             $this->add($side);
@@ -44,7 +48,12 @@ class DiceSides implements \Countable, \Iterator
      */
     public function add($value): self
     {
-        $this->sides[] = new DiceSide($value);
+        $side = new DiceSide($value);
+        $this->sides[] = $side;
+
+        if (! $side->isNumeric()) {
+            $this->isNumeric = false;
+        }
 
         return $this;
     }
@@ -95,6 +104,14 @@ class DiceSides implements \Countable, \Iterator
             );
         }
         return $this->sides[$index]->getValue();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNumeric(): bool
+    {
+        return $this->isNumeric;
     }
 
     /**

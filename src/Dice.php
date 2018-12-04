@@ -17,6 +17,9 @@ class Dice
     /** @var DiceSides */
     private $sides;
 
+    /** @var bool */
+    private $isNumeric = true;
+
     /** @var null|int */
     private $value;
 
@@ -59,6 +62,11 @@ class Dice
         }
 
         $this->sides = $sides;
+
+        if (! $sides->isNumeric()) {
+            $this->isNumeric = false;
+        }
+
         return $this;
     }
 
@@ -68,6 +76,14 @@ class Dice
     public function getSides(): DiceSides
     {
         return $this->sides;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNumeric(): bool
+    {
+        return $this->isNumeric;
     }
 
     /**
@@ -133,7 +149,7 @@ class Dice
      */
     public function getValue()
     {
-        if (is_null($this->value)) {
+        if (null === $this->value) {
             throw new DiceException("Cannot get the value of a Dice that hasn't been rolled.");
         }
 

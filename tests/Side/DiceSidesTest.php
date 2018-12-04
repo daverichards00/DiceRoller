@@ -92,4 +92,27 @@ class DiceSidesTest extends TestCase
         $this->sut->set($expected);
         $this->assertSame($expected, $this->sut->getAllValues());
     }
+    public function testIsNumericReturnsCorrectValue()
+    {
+        $this->sut->set([1, 2, 3]);
+        $this->assertTrue($this->sut->isNumeric());
+
+        $this->sut->set([1.1, 2.2, 3.3]);
+        $this->assertTrue($this->sut->isNumeric());
+
+        $this->sut->set([1, 2.2, 3]);
+        $this->assertTrue($this->sut->isNumeric());
+
+        $this->sut->set(['a', 'b', 'c']);
+        $this->assertFalse($this->sut->isNumeric());
+
+        $this->sut->set([1, 2, 'c']);
+        $this->assertFalse($this->sut->isNumeric());
+
+        $this->sut->set([1, 2.2, 'c']);
+        $this->assertFalse($this->sut->isNumeric());
+
+        $this->sut->set([4, 5, 6]);
+        $this->assertTrue($this->sut->isNumeric());
+    }
 }

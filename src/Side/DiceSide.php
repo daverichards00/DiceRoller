@@ -39,4 +39,12 @@ class DiceSide
         $this->value = $value;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isNumeric(): bool
+    {
+        return is_int($this->value) || is_float($this->value);
+    }
 }
