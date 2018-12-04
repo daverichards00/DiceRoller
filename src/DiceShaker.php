@@ -22,7 +22,7 @@ class DiceShaker
     public function __construct($dice = null, int $quantity = 1)
     {
         if (null !== $dice) {
-            $this->add($dice, $quantity);
+            $this->addDice($dice, $quantity);
         }
     }
 
@@ -32,7 +32,7 @@ class DiceShaker
      * @return DiceShaker
      * @throws \InvalidArgumentException
      */
-    public function add($dice, int $quantity = 1): self
+    public function addDice($dice, int $quantity = 1): self
     {
         if ($quantity < 1) {
             throw new \InvalidArgumentException("Quantity of Dice to add to DiceShaker cannot be less than 1.");
@@ -51,6 +51,14 @@ class DiceShaker
         }
 
         return $this;
+    }
+
+    /**
+     * @return Dice[]
+     */
+    public function getAllDice(): array
+    {
+        return $this->dice;
     }
 
     /**
@@ -87,7 +95,7 @@ class DiceShaker
      */
     public function roll($times = 1): self
     {
-        $this->diceExistOrThrowException("DiceShaker needs to contain at least 1 Dice before it can roll.");
+        $this->diceExistOrThrowException("DiceShaker needs to contain at least 1 Dice to roll.");
 
         foreach ($this->dice as $dice) {
             $dice->roll($times);
@@ -121,7 +129,7 @@ class DiceShaker
     // keep
 
     // TODO: Value Methods (Support Selectors)
-    // - total / sum -
+    // total / sum
     // count
     // average
 
