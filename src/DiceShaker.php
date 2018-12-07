@@ -7,11 +7,8 @@ use daverichards00\DiceRoller\Exception\DiceShakerException;
 
 class DiceShaker
 {
-    /** @var Dice[] */
-    private $dice;
-
-    /** @var bool */
-    private $isNumeric = true;
+    /** @var DiceCollection */
+    private $diceCollection;
 
     /**
      * DiceShaker constructor.
@@ -21,9 +18,7 @@ class DiceShaker
      */
     public function __construct($dice = null, int $quantity = 1)
     {
-        if (null !== $dice) {
-            $this->addDice($dice, $quantity);
-        }
+        $this->diceCollection = new DiceCollection($dice, $quantity);
     }
 
     /**
@@ -34,31 +29,16 @@ class DiceShaker
      */
     public function addDice($dice, int $quantity = 1): self
     {
-        if ($quantity < 1) {
-            throw new \InvalidArgumentException("Quantity of Dice to add to DiceShaker cannot be less than 1.");
-        }
-
-        if (! ($dice instanceof Dice)) {
-            $dice = new Dice($dice);
-        }
-
-        while ($quantity--) {
-            $this->dice[] = clone $dice;
-        }
-
-        if (! $dice->isNumeric()) {
-            $this->isNumeric = false;
-        }
-
+        $this->diceCollection->addDice($dice, $quantity);
         return $this;
     }
 
     /**
      * @return Dice[]
      */
-    public function getAllDice(): array
+    public function getDice(): array
     {
-        return $this->dice;
+        return $this->diceCollection->getDice();
     }
 
     /**
@@ -68,7 +48,7 @@ class DiceShaker
      */
     private function diceExistOrThrowException(string $message = null): self
     {
-        if (empty($this->dice)) {
+        if (count($this->diceCollection) == 0) {
             throw new DiceShakerException($message ?? "DiceShaker needs to contain at least 1 Dice.");
         }
         return $this;
@@ -81,7 +61,7 @@ class DiceShaker
      */
     private function allDiceNumericOrThrowException(string $message = null): self
     {
-        if (! $this->isNumeric) {
+        if (! $this->diceCollection->isNumeric()) {
             throw new DiceShakerException($message ?? "DiceShaker must contain only numeric Dice.");
         }
         return $this;
@@ -97,7 +77,7 @@ class DiceShaker
     {
         $this->diceExistOrThrowException("DiceShaker needs to contain at least 1 Dice to roll.");
 
-        foreach ($this->dice as $dice) {
+        foreach ($this->diceCollection->getDice() as $dice) {
             $dice->roll($times);
         }
 
@@ -111,12 +91,13 @@ class DiceShaker
      */
     public function getSum()
     {
+
         $this
             ->diceExistOrThrowException()
             ->allDiceNumericOrThrowException("DiceShaker can only sum numeric Dice.");
 
         $sum = 0;
-        foreach ($this->dice as $dice) {
+        foreach ($this->diceCollection->getDice() as $dice) {
             $sum += $dice->getValue();
         }
 
@@ -129,9 +110,12 @@ class DiceShaker
     // keep
 
     // TODO: Value Methods (Support Selectors)
-    // total / sum
-    // count
-    // average
+    // getTotal / getSum (+modifier?)
+    // getCount
+    // getAverage
+    // getAllValues: array
+    // getHighestValue
+    // getLowestValue
 
     // TODO: Selector Methods
     // highest X
@@ -141,6 +125,5 @@ class DiceShaker
     // lessThanOrEqualTo X
     // greaterThan X
     // greaterThanOrEqualTo X
-
-    // TODO: Implement \Countable and \Iterator
+    // random X
 }

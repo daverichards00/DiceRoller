@@ -25,7 +25,7 @@ class DiceShakerTest extends TestCase
         $dice = new Dice(6);
         $diceShaker->addDice($dice);
 
-        $result = $diceShaker->getAllDice();
+        $result = $diceShaker->getDice();
         $this->assertInstanceOf(Dice::class, $result[0]);
         $this->assertSame(6, count($result[0]->getSides()));
     }
@@ -35,7 +35,7 @@ class DiceShakerTest extends TestCase
         $diceShaker = new DiceShaker();
         $diceShaker->addDice(20);
 
-        $result = $diceShaker->getAllDice();
+        $result = $diceShaker->getDice();
         $this->assertInstanceOf(Dice::class, $result[0]);
         $this->assertSame(20, count($result[0]->getSides()));
     }
@@ -46,7 +46,7 @@ class DiceShakerTest extends TestCase
         $dice = new Dice(6);
         $diceShaker->addDice($dice);
 
-        $result = $diceShaker->getAllDice();
+        $result = $diceShaker->getDice();
         $this->assertNotSame($dice, $result[0]);
     }
 
@@ -56,7 +56,7 @@ class DiceShakerTest extends TestCase
         $dice = new Dice(20);
         $diceShaker->addDice($dice, 3);
 
-        $result = $diceShaker->getAllDice();
+        $result = $diceShaker->getDice();
         $this->assertSame(3, count($result));
 
         foreach ($result as $dice) {
@@ -72,7 +72,7 @@ class DiceShakerTest extends TestCase
         $diceShaker->addDice(new Dice(20), 2);
         $diceShaker->addDice(new Dice(6), 3);
 
-        $result = $diceShaker->getAllDice();
+        $result = $diceShaker->getDice();
         $this->assertSame(5, count($result));
 
         for ($i = 0; $i < 2; $i++) {
@@ -90,7 +90,7 @@ class DiceShakerTest extends TestCase
     {
         $diceShaker = new DiceShaker(new Dice(6), 2);
 
-        $result = $diceShaker->getAllDice();
+        $result = $diceShaker->getDice();
         $this->assertSame(2, count($result));
 
         foreach ($result as $dice) {
