@@ -4,6 +4,7 @@ namespace daverichards00\DiceRoller;
 
 use daverichards00\DiceRoller\Exception\DiceException;
 use daverichards00\DiceRoller\Exception\DiceShakerException;
+use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
 
 class DiceShaker
 {
@@ -31,6 +32,14 @@ class DiceShaker
     {
         $this->diceCollection->addDice($dice, $quantity);
         return $this;
+    }
+
+    /**
+     * @return DiceCollection
+     */
+    public function getDiceCollection(): DiceCollection
+    {
+        return $this->diceCollection;
     }
 
     /**
@@ -85,23 +94,26 @@ class DiceShaker
     }
 
     /**
+     * @param DiceSelectorInterface $selector
      * @return mixed
      * @throws DiceException
      * @throws DiceShakerException
      */
-    public function getSum()
+    public function getSum(DiceSelectorInterface $selector = null)
     {
-
         $this
             ->diceExistOrThrowException()
             ->allDiceNumericOrThrowException("DiceShaker can only sum numeric Dice.");
 
-        $sum = 0;
-        foreach ($this->diceCollection->getDice() as $dice) {
-            $sum += $dice->getValue();
+        $diceCollection = $this->getDiceCollection();
+
+        if (! empty($selector)) {
+            $diceCollection = $selector->select($diceCollection);
         }
 
-        return $sum;
+        return array_reduce($diceCollection->getDice(), function ($carry, Dice $dice) {
+            return $carry + $dice->getValue();
+        }, 0);
     }
 
     // TODO: Action Methods (Support Selectors)
@@ -119,7 +131,7 @@ class DiceShaker
 
     // TODO: Selector Methods
     // highest X
-    // lowest X
+    // lowestSelector X
     // equalTo X
     // lessThan X
     // lessThanOrEqualTo X

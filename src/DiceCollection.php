@@ -81,7 +81,7 @@ class DiceCollection implements \Countable
      */
     public function current()
     {
-        return current($this->dice)->getValue();
+        return current($this->dice);
     }
 
     /**
