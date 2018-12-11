@@ -1,7 +1,8 @@
 <?php
 
-namespace daverichards00\DiceRoller;
+namespace daverichards00\DiceRoller\Collection;
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\Exception\DiceException;
 
 class DiceCollection implements \Countable
@@ -14,35 +15,32 @@ class DiceCollection implements \Countable
 
     /**
      * DiceCollection constructor.
-     * @param null $dice
-     * @param int $quantity
+     * @param Dice[] $dice
      */
-    public function __construct($dice = null, int $quantity = 1)
+    public function __construct(array $dice)
     {
-        if (null !== $dice) {
-            $this->addDice($dice, $quantity);
-        }
+        $this->addMultipleDice($dice);
     }
 
     /**
-     * @param mixed $dice
-     * @param int $quantity
+     * @param Dice[] $dice
      * @return DiceCollection
-     * @throws \InvalidArgumentException
      */
-    public function addDice($dice, int $quantity = 1): self
+    public function addMultipleDice(array $dice): self
     {
-        if ($quantity < 1) {
-            throw new \InvalidArgumentException("Quantity of Dice to add to DiceCollection cannot be less than 1.");
+        foreach ($dice as $die) {
+            $this->addDice($die);
         }
+        return $this;
+    }
 
-        if (! ($dice instanceof Dice)) {
-            $dice = new Dice($dice);
-        }
-
-        while ($quantity--) {
-            $this->dice[] = clone $dice;
-        }
+    /**
+     * @param Dice $dice
+     * @return DiceCollection
+     */
+    public function addDice(Dice $dice): self
+    {
+        $this->dice[] = $dice;
 
         if (! $dice->isNumeric()) {
             $this->isNumeric = false;

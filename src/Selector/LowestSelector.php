@@ -3,9 +3,9 @@
 namespace daverichards00\DiceRoller\Selector;
 
 use daverichards00\DiceRoller\Dice;
-use daverichards00\DiceRoller\DiceCollection;
+use daverichards00\DiceRoller\Collection\DiceCollection;
 
-class lowestSelector implements DiceSelectorInterface
+class LowestSelector implements DiceSelectorInterface
 {
     /** @var int */
     private $count;
@@ -31,6 +31,4 @@ class lowestSelector implements DiceSelectorInterface
             array_slice($dice, 0, $this->count)
         );
     }
-
-
 }

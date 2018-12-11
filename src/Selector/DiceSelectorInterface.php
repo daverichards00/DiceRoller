@@ -2,7 +2,7 @@
 
 namespace daverichards00\DiceRoller\Selector;
 
-use daverichards00\DiceRoller\DiceCollection;
+use daverichards00\DiceRoller\Collection\DiceCollection;
 
 interface DiceSelectorInterface
 {

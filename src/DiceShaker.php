@@ -2,6 +2,8 @@
 
 namespace daverichards00\DiceRoller;
 
+use daverichards00\DiceRoller\Collection\DiceCollection;
+use daverichards00\DiceRoller\Collection\DiceCollectionFactory;
 use daverichards00\DiceRoller\Exception\DiceException;
 use daverichards00\DiceRoller\Exception\DiceShakerException;
 use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
@@ -17,9 +19,9 @@ class DiceShaker
      * @param int $quantity
      * @throws \InvalidArgumentException
      */
-    public function __construct($dice = null, int $quantity = 1)
+    public function __construct($dice = [], int $quantity = 1)
     {
-        $this->diceCollection = new DiceCollection($dice, $quantity);
+        $this->diceCollection = DiceCollectionFactory::create($dice, $quantity);
     }
 
     /**
@@ -30,7 +32,8 @@ class DiceShaker
      */
     public function addDice($dice, int $quantity = 1): self
     {
-        $this->diceCollection->addDice($dice, $quantity);
+//        $this->diceCollection->addDice($dice, $quantity);
+        $this->diceCollection->addDice($dice);
         return $this;
     }
 
@@ -115,27 +118,4 @@ class DiceShaker
             return $carry + $dice->getValue();
         }, 0);
     }
-
-    // TODO: Action Methods (Support Selectors)
-    // reRoll (alias of roll)
-    // discard
-    // keep
-
-    // TODO: Value Methods (Support Selectors)
-    // getTotal / getSum (+modifier?)
-    // getCount
-    // getAverage
-    // getAllValues: array
-    // getHighestValue
-    // getLowestValue
-
-    // TODO: Selector Methods
-    // highest X
-    // lowestSelector X
-    // equalTo X
-    // lessThan X
-    // lessThanOrEqualTo X
-    // greaterThan X
-    // greaterThanOrEqualTo X
-    // random X
 }
