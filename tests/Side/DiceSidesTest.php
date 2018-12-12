@@ -19,12 +19,14 @@ class DiceSidesTest extends TestCase
 
     public function testIsCountable()
     {
-        $result = count($this->sut);
-        $this->assertSame(3, $result);
+        $this->assertInstanceOf(\Countable::class, $this->sut);
+        $this->assertSame(3, count($this->sut));
     }
 
     public function testIsIterable()
     {
+        $this->assertInstanceOf(\Iterator::class, $this->sut);
+
         $result = [];
         foreach ($this->sut as $value) {
             $result[] = $value;

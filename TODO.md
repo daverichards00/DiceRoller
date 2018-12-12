@@ -1,10 +1,5 @@
 # TODO
 
-## DiceCollection
-
-- Tests
-- Create a factory to contain the logic for flexibility of adding Dice, so the actual DiceCollection can enforce Dice (or array of) as the input.
-
 ## DiceShaker
 
 - Tests
@@ -36,3 +31,12 @@
 
 - Tests
 
+## Exceptions
+
+- Import InvalidArgumentException wherever it is used
+- DiceException to extend RuntimeException
+- Add tests
+
+## General
+
+ - Add a .editorconfig

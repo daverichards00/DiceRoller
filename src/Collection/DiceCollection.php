@@ -3,9 +3,8 @@
 namespace daverichards00\DiceRoller\Collection;
 
 use daverichards00\DiceRoller\Dice;
-use daverichards00\DiceRoller\Exception\DiceException;
 
-class DiceCollection implements \Countable
+class DiceCollection implements \Countable, \Iterator
 {
     /** @var Dice[] */
     private $dice = [];
@@ -75,7 +74,6 @@ class DiceCollection implements \Countable
 
     /**
      * @return mixed
-     * @throws DiceException
      */
     public function current()
     {
