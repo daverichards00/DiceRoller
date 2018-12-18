@@ -22,19 +22,16 @@ class DiceShaker
      */
     public function __construct($dice = [], int $quantity = 1)
     {
-        $this->diceCollection = DiceCollectionFactory::create($dice, $quantity);
+        $this->setDiceCollection(DiceCollectionFactory::create($dice, $quantity));
     }
 
     /**
-     * @param mixed $dice
-     * @param int $quantity
+     * @param DiceCollection $diceCollection
      * @return DiceShaker
-     * @throws InvalidArgumentException
      */
-    public function addDice($dice, int $quantity = 1): self
+    public function setDiceCollection(DiceCollection $diceCollection): self
     {
-//        $this->diceCollection->addDice($dice, $quantity);
-        $this->diceCollection->addDice($dice);
+        $this->diceCollection = $diceCollection;
         return $this;
     }
 
@@ -47,19 +44,11 @@ class DiceShaker
     }
 
     /**
-     * @return Dice[]
-     */
-    public function getDice(): array
-    {
-        return $this->diceCollection->getDice();
-    }
-
-    /**
      * @param string|null $message
      * @return DiceShaker
      * @throws DiceShakerException
      */
-    private function diceExistOrThrowException(string $message = null): self
+    private function ifDiceCollectionEmptyThrowException(string $message = null): self
     {
         if (count($this->diceCollection) == 0) {
             throw new DiceShakerException($message ?? "DiceShaker needs to contain at least 1 Dice.");
@@ -72,7 +61,7 @@ class DiceShaker
      * @return DiceShaker
      * @throws DiceShakerException
      */
-    private function allDiceNumericOrThrowException(string $message = null): self
+    private function ifDiceCollectionNotNumericThrowException(string $message = null): self
     {
         if (! $this->diceCollection->isNumeric()) {
             throw new DiceShakerException($message ?? "DiceShaker must only contain numeric Dice.");
@@ -88,7 +77,7 @@ class DiceShaker
      */
     public function roll($times = 1): self
     {
-        $this->diceExistOrThrowException("DiceShaker needs to contain at least 1 Dice to roll.");
+        $this->ifDiceCollectionEmptyThrowException("DiceShaker needs to contain at least 1 Dice to roll.");
 
         foreach ($this->diceCollection->getDice() as $dice) {
             $dice->roll($times);
@@ -106,8 +95,8 @@ class DiceShaker
     public function getSum(DiceSelectorInterface $selector = null)
     {
         $this
-            ->diceExistOrThrowException()
-            ->allDiceNumericOrThrowException("DiceShaker can only sum numeric Dice.");
+            ->ifDiceCollectionEmptyThrowException()
+            ->ifDiceCollectionNotNumericThrowException("DiceShaker can only sum numeric Dice.");
 
         $diceCollection = $this->getDiceCollection();
 
