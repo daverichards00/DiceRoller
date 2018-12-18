@@ -2,6 +2,8 @@
 
 namespace daverichards00\DiceRoller\Exception;
 
-class DiceException extends \Exception
+use RuntimeException;
+
+class DiceException extends RuntimeException
 {
 }

@@ -35,5 +35,3 @@
 ## Exceptions
 
 - Import InvalidArgumentException wherever it is used
-- DiceException to extend RuntimeException
-- Add tests
