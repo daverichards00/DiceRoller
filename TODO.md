@@ -17,6 +17,10 @@
   - getHighestValue
   - getLowestValue
 
+## DiceSelector
+
+- Tests
+
 - TODO: Selector Methods
   - highest X
   - lowest X
@@ -26,17 +30,10 @@
   - greaterThan X
   - greaterThanOrEqualTo X
   - random X
-
-## DiceSelector
-
-- Tests
+  - all ?
 
 ## Exceptions
 
 - Import InvalidArgumentException wherever it is used
 - DiceException to extend RuntimeException
 - Add tests
-
-## General
-
- - Add a .editorconfig
