@@ -2,12 +2,14 @@
 
 namespace daverichards00\DiceRoller\Side;
 
+use InvalidArgumentException;
+
 class DiceSidesFactory
 {
     /**
      * @param mixed $sides
      * @return DiceSides
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function create($sides): DiceSides
     {
@@ -21,7 +23,7 @@ class DiceSidesFactory
             return new DiceSides($sides);
         }
 
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
             sprintf("DiceSidesFactory requires either an int or an array, %s given.", gettype($sides))
         );
     }

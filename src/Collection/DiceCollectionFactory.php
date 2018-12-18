@@ -3,6 +3,7 @@
 namespace daverichards00\DiceRoller\Collection;
 
 use daverichards00\DiceRoller\Dice;
+use InvalidArgumentException;
 
 class DiceCollectionFactory
 {
@@ -26,7 +27,7 @@ class DiceCollectionFactory
     private static function generateDiceArray($dice, int $quantity = 1): array
     {
         if ($quantity < 1) {
-            throw new \InvalidArgumentException("Quantity of Dice to add to DiceCollection cannot be less than 1.");
+            throw new InvalidArgumentException("Quantity of Dice to add to DiceCollection cannot be less than 1.");
         }
 
         $diceArray = [];
@@ -49,7 +50,7 @@ class DiceCollectionFactory
             return $diceArray;
         }
 
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
             "To create a DiceCollection, you must pass either a Scalar, an instance of Dice, "
             ."or an array of either Scalars and/or Dice."
         );

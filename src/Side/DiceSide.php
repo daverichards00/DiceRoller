@@ -2,6 +2,8 @@
 
 namespace daverichards00\DiceRoller\Side;
 
+use InvalidArgumentException;
+
 class DiceSide
 {
     /** @var mixed */
@@ -31,7 +33,7 @@ class DiceSide
     public function setValue($value)
     {
         if (! is_scalar($value)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf("A Dice Side must be a scalar, %s given", gettype($value))
             );
         }

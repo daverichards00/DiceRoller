@@ -6,6 +6,7 @@ use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\Exception\DiceException;
 use daverichards00\DiceRoller\Roller\RollerInterface;
 use daverichards00\DiceRoller\Roller\QuickRoller;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class DiceTest extends TestCase
@@ -38,7 +39,7 @@ class DiceTest extends TestCase
 
     public function testDiceCanNotBeInstantiatedWithASizeSmallerThan2()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Dice(1);
     }
 
@@ -158,7 +159,7 @@ class DiceTest extends TestCase
      */
     public function testRollsCanNotBeLessThanOneTime($times)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->sut->roll($times);
     }
 

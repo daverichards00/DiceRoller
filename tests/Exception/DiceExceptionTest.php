@@ -4,6 +4,7 @@ namespace daverichards00\DiceRollerTest\Exception;
 
 use daverichards00\DiceRoller\Exception\DiceException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class DiceExceptionTest extends TestCase
 {
@@ -11,6 +12,6 @@ class DiceExceptionTest extends TestCase
     {
         $sut = new DiceException();
 
-        $this->assertInstanceOf(\RuntimeException::class, $sut);
+        $this->assertInstanceOf(RuntimeException::class, $sut);
     }
 }

@@ -4,6 +4,7 @@ namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Side\DiceSides;
 use daverichards00\DiceRoller\Side\DiceSidesFactory;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class DiceSidesFactoryTest extends TestCase
@@ -37,7 +38,7 @@ class DiceSidesFactoryTest extends TestCase
 
     public function testInvalidArgumentThrownForInvalidParameterType()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         DiceSidesFactory::create('strings not valid');
     }

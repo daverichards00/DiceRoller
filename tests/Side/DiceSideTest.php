@@ -3,6 +3,7 @@
 namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Side\DiceSide;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class DiceSideTest extends TestCase
@@ -21,7 +22,7 @@ class DiceSideTest extends TestCase
 
     public function testInvalidArgumentExceptionThrownForNonScalars()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $sut = new DiceSide([1, 2, 3]);
     }
 

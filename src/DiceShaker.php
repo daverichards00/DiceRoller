@@ -7,6 +7,7 @@ use daverichards00\DiceRoller\Collection\DiceCollectionFactory;
 use daverichards00\DiceRoller\Exception\DiceException;
 use daverichards00\DiceRoller\Exception\DiceShakerException;
 use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
+use InvalidArgumentException;
 
 class DiceShaker
 {
@@ -17,7 +18,7 @@ class DiceShaker
      * DiceShaker constructor.
      * @param mixed $dice
      * @param int $quantity
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($dice = [], int $quantity = 1)
     {
@@ -28,7 +29,7 @@ class DiceShaker
      * @param mixed $dice
      * @param int $quantity
      * @return DiceShaker
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function addDice($dice, int $quantity = 1): self
     {
@@ -74,7 +75,7 @@ class DiceShaker
     private function allDiceNumericOrThrowException(string $message = null): self
     {
         if (! $this->diceCollection->isNumeric()) {
-            throw new DiceShakerException($message ?? "DiceShaker must contain only numeric Dice.");
+            throw new DiceShakerException($message ?? "DiceShaker must only contain numeric Dice.");
         }
         return $this;
     }

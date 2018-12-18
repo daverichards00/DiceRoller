@@ -4,6 +4,7 @@ namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class DiceShakerTest extends TestCase
@@ -103,13 +104,13 @@ class DiceShakerTest extends TestCase
     {
 //        $diceShaker = new DiceShaker();
 //
-//        $this->expectException(\InvalidArgumentException::class);
+//        $this->expectException(InvalidArgumentException::class);
 //        $diceShaker->addDice(6, 0);
     }
 
     public function testExceptionThrownForInvalidQuantityThroughConstructor()
     {
-//        $this->expectException(\InvalidArgumentException::class);
+//        $this->expectException(InvalidArgumentException::class);
 //
 //        $diceShaker = new DiceShaker(6, 0);
     }

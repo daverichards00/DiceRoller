@@ -8,6 +8,7 @@ use daverichards00\DiceRoller\Roller\RollerInterface;
 use daverichards00\DiceRoller\Side\DiceSide;
 use daverichards00\DiceRoller\Side\DiceSides;
 use daverichards00\DiceRoller\Side\DiceSidesFactory;
+use InvalidArgumentException;
 
 class Dice
 {
@@ -33,7 +34,7 @@ class Dice
      * Dice constructor.
      * @param mixed $sides
      * @param RollerInterface $roller
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($sides, RollerInterface $roller = null)
     {
@@ -49,7 +50,7 @@ class Dice
     /**
      * @param mixed $sides
      * @return Dice
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setSides($sides): self
     {
@@ -58,7 +59,7 @@ class Dice
         }
 
         if (count($sides) < 2) {
-            throw new \InvalidArgumentException("A Dice must have at least 2 sides.");
+            throw new InvalidArgumentException("A Dice must have at least 2 sides.");
         }
 
         $this->sides = $sides;
@@ -107,12 +108,12 @@ class Dice
     /**
      * @param int $times
      * @return Dice
-     * @throws \InvalidArgumentException|DiceException
+     * @throws InvalidArgumentException|DiceException
      */
     public function roll($times = 1): self
     {
         if ($times < 1) {
-            throw new \InvalidArgumentException("A Dice must be rolled at least 1 time.");
+            throw new InvalidArgumentException("A Dice must be rolled at least 1 time.");
         }
 
         $numberOfSides = count($this->sides);

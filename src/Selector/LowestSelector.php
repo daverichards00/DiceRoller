@@ -4,6 +4,7 @@ namespace daverichards00\DiceRoller\Selector;
 
 use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\Collection\DiceCollection;
+use InvalidArgumentException;
 
 class LowestSelector implements DiceSelectorInterface
 {
@@ -13,7 +14,7 @@ class LowestSelector implements DiceSelectorInterface
     public function __construct(int $count = 1)
     {
         if ($count < 1) {
-            throw new \InvalidArgumentException("Count must be at least 1.");
+            throw new InvalidArgumentException("Count must be at least 1.");
         }
 
         $this->count = $count;
