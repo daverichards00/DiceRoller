@@ -5,7 +5,7 @@
 - Tests
 
 - TODO: Action Methods (Support Selectors)
-  - reRoll (alias of roll)
+  - reRoll (alias of roll?)
   - discard
   - keep
 
@@ -23,7 +23,7 @@
 
 - TODO: Selector Methods
   - highest X
-  - lowest X
+  - ~~lowest X~~
   - equalTo X
   - lessThan X
   - lessThanOrEqualTo X
@@ -31,7 +31,3 @@
   - greaterThanOrEqualTo X
   - random X
   - all ?
-
-## Exceptions
-
-- Import InvalidArgumentException wherever it is used
