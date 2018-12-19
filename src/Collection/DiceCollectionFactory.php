@@ -11,6 +11,7 @@ class DiceCollectionFactory
      * @param mixed $dice
      * @param int $quantity
      * @return DiceCollection
+     * @throws InvalidArgumentException
      */
     public static function create($dice, int $quantity = 1): DiceCollection
     {
@@ -23,6 +24,7 @@ class DiceCollectionFactory
      * @param mixed $dice
      * @param int $quantity
      * @return Dice[]
+     * @throws InvalidArgumentException
      */
     private static function generateDiceArray($dice, int $quantity = 1): array
     {

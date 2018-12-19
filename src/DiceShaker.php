@@ -20,9 +20,11 @@ class DiceShaker
      * @param int $quantity
      * @throws InvalidArgumentException
      */
-    public function __construct($dice = [], int $quantity = 1)
+    public function __construct($dice = null, int $quantity = 1)
     {
-        $this->setDiceCollection(DiceCollectionFactory::create($dice, $quantity));
+        if (! empty($dice)) {
+            $this->setDiceCollection(DiceCollectionFactory::create($dice, $quantity));
+        }
     }
 
     /**
@@ -37,9 +39,13 @@ class DiceShaker
 
     /**
      * @return DiceCollection
+     * @throws DiceShakerException
      */
     public function getDiceCollection(): DiceCollection
     {
+        if (empty($this->diceCollection)) {
+            throw new DiceShakerException("DiceCollection has not been set!");
+        }
         return $this->diceCollection;
     }
 

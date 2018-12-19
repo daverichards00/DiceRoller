@@ -112,4 +112,40 @@ class DiceCollectionFactoryTest extends TestCase
 
         $this->assertSame($diceInstances, $result->getDice());
     }
+
+    public function testDiceCollectionFactoryClonesDuplicatesOfDice()
+    {
+        $diceMock = $this->createMock(Dice::class);
+
+        $diceInstances = [$diceMock, $diceMock, $diceMock];
+
+        $result = DiceCollectionFactory::create($diceInstances);
+
+        // Original instance
+        $this->assertSame($diceMock, $result->getDice()[0]);
+
+        // Clones of original instance
+        $this->assertNotSame($diceMock, $result->getDice()[1]);
+        $this->assertEquals($diceMock, $result->getDice()[1]);
+
+        $this->assertNotSame($diceMock, $result->getDice()[2]);
+        $this->assertEquals($diceMock, $result->getDice()[2]);
+    }
+
+    public function testDiceCollectionFactoryClonesDiceDuplicateByQuantity()
+    {
+        $diceMock = $this->createMock(Dice::class);
+
+        $result = DiceCollectionFactory::create($diceMock, 3);
+
+        // Original instance
+        $this->assertSame($diceMock, $result->getDice()[0]);
+
+        // Clones of original instance
+        $this->assertNotSame($diceMock, $result->getDice()[1]);
+        $this->assertEquals($diceMock, $result->getDice()[1]);
+
+        $this->assertNotSame($diceMock, $result->getDice()[2]);
+        $this->assertEquals($diceMock, $result->getDice()[2]);
+    }
 }
