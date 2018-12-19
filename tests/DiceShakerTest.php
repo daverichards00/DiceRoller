@@ -4,8 +4,11 @@ namespace daverichards00\DiceRollerTest;
 
 use daverichards00\DiceRoller\Collection\DiceCollection;
 use daverichards00\DiceRoller\Collection\DiceCollectionFactory;
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 use daverichards00\DiceRoller\Exception\DiceShakerException;
+use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class DiceShakerTest extends TestCase
@@ -13,11 +16,35 @@ class DiceShakerTest extends TestCase
     /** @var DiceShaker */
     protected $sut;
 
+    /** @var DiceCollection|MockObject */
+    protected $diceCollectionMock;
+
+    /** @var Dice[]|MockObject[] */
+    protected $diceArrayMock;
+
     public function setUp()
     {
         parent::setUp();
 
         $this->sut = new DiceShaker();
+
+        $this->diceArrayMock = [
+            $this->createMock(Dice::class),
+            $this->createMock(Dice::class),
+            $this->createMock(Dice::class),
+        ];
+
+        $this->diceCollectionMock = $this->createMock(DiceCollection::class);
+        $this->diceCollectionMock
+            ->expects($this->any())
+            ->method('getDice')
+            ->willReturn($this->diceArrayMock);
+        $this->diceCollectionMock
+            ->expects($this->any())
+            ->method('count')
+            ->willReturn(count($this->diceArrayMock));
+
+        $this->sut->setDiceCollection($this->diceCollectionMock);
     }
 
     public function testDiceShakerCanBeInstantiated()
@@ -27,17 +54,29 @@ class DiceShakerTest extends TestCase
 
     public function testDiceShakerThrowsAnExceptionWhenTryingToGetAnUnsetDiceCollection()
     {
+        $sut = new DiceShaker();
         $this->expectException(DiceShakerException::class);
-        $result = $this->sut->getDiceCollection();
+        $result = $sut->getDiceCollection();
     }
 
-    public function testDiceCollectionCanBeSetAndRetrieved()
+    public function testDiceCollectionCanBeRetrieved()
     {
-        $diceCollectionMock = $this->createMock(DiceCollection::class);
-        $this->sut->setDiceCollection($diceCollectionMock);
-
         $result = $this->sut->getDiceCollection();
-        $this->assertSame($diceCollectionMock, $result);
+        $this->assertSame($this->diceCollectionMock, $result);
+    }
+
+    public function testDiceCollectionCanBeFilteredWithByASelectorWhenBeingRetrieved()
+    {
+        $filteredDiceCollectionMock = $this->createMock(DiceCollection::class);
+        $diceSelectorMock = $this->createMock(DiceSelectorInterface::class);
+        $diceSelectorMock
+            ->expects($this->once())
+            ->method('select')
+            ->with($this->diceCollectionMock)
+            ->willReturn($filteredDiceCollectionMock);
+
+        $result = $this->sut->getDiceCollection($diceSelectorMock);
+        $this->assertSame($filteredDiceCollectionMock, $result);
     }
 
     public function testDiceCollectionIsCreatedThroughConstructor()
@@ -46,5 +85,56 @@ class DiceShakerTest extends TestCase
         $expectedDiceCollection = DiceCollectionFactory::create([2, 3, 4], 2);
 
         $this->assertEquals($expectedDiceCollection, $sut->getDiceCollection());
+    }
+
+    public function testDiceCanNotBeRolledIfDiceCollectionIsEmpty()
+    {
+        $sut = new DiceShaker();
+        $this->expectException(DiceShakerException::class);
+        $sut->roll();
+    }
+
+    public function testDiceCanBeRolledOnce()
+    {
+        $expectedTimes = 1;
+
+        $this->diceArrayMock[0]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+
+        $this->diceArrayMock[1]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+
+        $this->diceArrayMock[2]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+
+        $this->sut->roll();
+    }
+
+    public function testDiceCanBeRolledMultipleTimes()
+    {
+        $expectedTimes = 3;
+
+        $this->diceArrayMock[0]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+
+        $this->diceArrayMock[1]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+
+        $this->diceArrayMock[2]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+
+        $this->sut->roll(3);
     }
 }

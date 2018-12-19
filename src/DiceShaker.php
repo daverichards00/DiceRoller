@@ -38,15 +38,23 @@ class DiceShaker
     }
 
     /**
+     * @param DiceSelectorInterface $selector
      * @return DiceCollection
      * @throws DiceShakerException
      */
-    public function getDiceCollection(): DiceCollection
+    public function getDiceCollection(DiceSelectorInterface $selector = null): DiceCollection
     {
         if (empty($this->diceCollection)) {
             throw new DiceShakerException("DiceCollection has not been set!");
         }
-        return $this->diceCollection;
+
+        $diceCollection = $this->diceCollection;
+
+        if (! empty($selector)) {
+            $diceCollection = $selector->select($diceCollection);
+        }
+
+        return $diceCollection;
     }
 
     /**
@@ -54,10 +62,10 @@ class DiceShaker
      * @return DiceShaker
      * @throws DiceShakerException
      */
-    private function ifDiceCollectionEmptyThrowException(string $message = null): self
+    private function ifNoDiceCollectionThrowException(string $message = null): self
     {
-        if (count($this->diceCollection) == 0) {
-            throw new DiceShakerException($message ?? "DiceShaker needs to contain at least 1 Dice.");
+        if (empty($this->diceCollection)) {
+            throw new DiceShakerException($message ?? "DiceShaker needs to contain a DiceCollection.");
         }
         return $this;
     }
@@ -83,7 +91,7 @@ class DiceShaker
      */
     public function roll($times = 1): self
     {
-        $this->ifDiceCollectionEmptyThrowException("DiceShaker needs to contain at least 1 Dice to roll.");
+        $this->ifNoDiceCollectionThrowException("DiceShaker needs to contain at least 1 Dice to roll.");
 
         foreach ($this->diceCollection->getDice() as $dice) {
             $dice->roll($times);
@@ -101,14 +109,10 @@ class DiceShaker
     public function getSum(DiceSelectorInterface $selector = null)
     {
         $this
-            ->ifDiceCollectionEmptyThrowException()
+            ->ifNoDiceCollectionThrowException()
             ->ifDiceCollectionNotNumericThrowException("DiceShaker can only sum numeric Dice.");
 
-        $diceCollection = $this->getDiceCollection();
-
-        if (! empty($selector)) {
-            $diceCollection = $selector->select($diceCollection);
-        }
+        $diceCollection = $this->getDiceCollection($selector);
 
         return array_reduce($diceCollection->getDice(), function ($carry, Dice $dice) {
             return $carry + $dice->getValue();
