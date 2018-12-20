@@ -13,7 +13,7 @@
   - ~~getSum~~
     - ~~getTotal alias~~
     - +modifier?
-  - getCount
+  - ~~getCount~~
   - getAverage
   - getAllValues: array
   - getHighestValue

@@ -133,6 +133,20 @@ class DiceShaker
     }
 
     /**
+     * @param DiceSelectorInterface|null $selector
+     * @return int
+     * @throws DiceShakerException
+     */
+    public function getCount(DiceSelectorInterface $selector = null): int
+    {
+        $this->ifNoDiceCollectionThrowException();
+
+        $diceCollection = $this->getDiceCollection($selector);
+
+        return count($diceCollection);
+    }
+
+    /**
      * @see DiceShaker::getSum() Alias of getSum()
      */
     public function getTotal()
