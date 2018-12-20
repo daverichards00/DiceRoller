@@ -20,8 +20,7 @@ class DiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->rollerMock = $this->getMockBuilder(RollerInterface::class)
-            ->getMock();
+        $this->rollerMock = $this->createMock(RollerInterface::class);
 
         $this->rollerMock
             ->expects($this->any())
@@ -56,7 +55,7 @@ class DiceTest extends TestCase
 
     public function testRollerCanBeSet()
     {
-        $rollerMock = $this->getMockBuilder(RollerInterface::class)->getMock();
+        $rollerMock = $this->createMock(RollerInterface::class);
 
         $this->sut->setRoller($rollerMock);
 
@@ -104,8 +103,7 @@ class DiceTest extends TestCase
 
     public function testRollUsesTheCorrectRoller()
     {
-        $rollerMockOne = $this->getMockBuilder(RollerInterface::class)
-            ->getMock();
+        $rollerMockOne = $this->createMock(RollerInterface::class);
         $rollerMockOne
             ->expects($this->once())
             ->method('roll')
@@ -117,8 +115,7 @@ class DiceTest extends TestCase
 
         $this->assertSame(5, $result);
 
-        $rollerMockTwo = $this->getMockBuilder(RollerInterface::class)
-            ->getMock();
+        $rollerMockTwo = $this->createMock(RollerInterface::class);
         $rollerMockTwo
             ->expects($this->once())
             ->method('roll')
