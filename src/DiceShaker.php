@@ -133,6 +133,14 @@ class DiceShaker
     }
 
     /**
+     * @see DiceShaker::getSum() Alias of getSum()
+     */
+    public function getTotal()
+    {
+        return call_user_func_array([$this, 'getSum'], func_get_args());
+    }
+
+    /**
      * @param DiceSelectorInterface|null $selector
      * @return int
      * @throws DiceShakerException
@@ -147,10 +155,23 @@ class DiceShaker
     }
 
     /**
-     * @see DiceShaker::getSum() Alias of getSum()
+     * @param DiceSelectorInterface|null $selector
+     * @return float|int
      */
-    public function getTotal()
+    public function getAverage(DiceSelectorInterface $selector = null)
     {
-        return call_user_func_array([$this, 'getSum'], func_get_args());
+        $this
+            ->ifNoDiceCollectionThrowException()
+            ->ifDiceCollectionNotNumericThrowException("DiceShaker can only sum numeric Dice.");
+
+        $diceCollection = $this->getDiceCollection($selector);
+
+        return array_reduce(
+            $diceCollection->getDice(),
+            function ($carry, Dice $dice) {
+                return $carry + $dice->getValue();
+            },
+            0
+        ) / count($diceCollection);
     }
 }
