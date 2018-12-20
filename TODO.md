@@ -14,17 +14,19 @@
     - ~~getTotal alias~~
     - +modifier?
   - ~~getCount~~
-  - getAverage
+  - ~~getAverage~~
+    - getMean alias
   - getAllValues: array
   - getHighestValue
   - getLowestValue
+  - getMedian
 
 ## DiceSelector
 
 - Tests
 
 - TODO: Selector Methods
-  - highest X
+  - ~~highest X~~
   - ~~lowest X~~
   - equalTo X
   - lessThan X
