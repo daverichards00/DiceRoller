@@ -90,16 +90,19 @@ class DiceShaker
     }
 
     /**
+     * @param DiceSelectorInterface $selector
      * @param int $times
      * @return DiceShaker
      * @throws DiceException
      * @throws DiceShakerException
      */
-    public function roll($times = 1): self
+    public function roll(DiceSelectorInterface $selector = null, $times = 1): self
     {
-        $this->ifNoDiceCollectionThrowException("DiceShaker needs to contain at least 1 Dice to roll.");
+        $this->ifNoDiceCollectionThrowException();
 
-        foreach ($this->diceCollection->getDice() as $dice) {
+        $diceCollection = $this->getDiceCollection($selector);
+
+        foreach ($diceCollection->getDice() as $dice) {
             $dice->roll($times);
         }
 
@@ -127,5 +130,13 @@ class DiceShaker
             },
             0
         );
+    }
+
+    /**
+     * @see DiceShaker::getSum() Alias of getSum()
+     */
+    public function getTotal()
+    {
+        return call_user_func_array([$this, 'getSum'], func_get_args());
     }
 }

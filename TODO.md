@@ -5,12 +5,14 @@
 - Tests
 
 - TODO: Action Methods (Support Selectors)
-  - reRoll (alias of roll?)
+  - ~~roll~~
   - discard
   - keep
 
 - TODO: Value Methods (Support Selectors)
-  - getTotal / getSum (+modifier?)
+  - ~~getSum~~
+    - ~~getTotal alias~~
+    - +modifier?
   - getCount
   - getAverage
   - getAllValues: array
@@ -30,10 +32,11 @@
   - greaterThan X
   - greaterThanOrEqualTo X
   - random X
-  - all ?
+  - all
+  - specific
   
 ## General
 
 - Update README
   - Split into multiple READMEs?
-- Add examples
+- Examples

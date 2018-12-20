@@ -95,6 +95,7 @@ class DiceShakerTest extends TestCase
     {
         $sut = new DiceShaker();
         $this->expectException(DiceShakerException::class);
+        $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_MISSING);
         $sut->roll();
     }
 
@@ -139,7 +140,42 @@ class DiceShakerTest extends TestCase
             ->method('roll')
             ->with($expectedTimes);
 
-        $this->sut->roll(3);
+        $this->sut->roll(null, 3);
+    }
+
+    public function testDiceCollectionSelectionCanBeRolled()
+    {
+        $expectedTimes = 1;
+
+        $selectedDiceCollectionMock = $this->createMock(DiceCollection::class);
+        $selectedDiceCollectionMock
+            ->expects($this->once())
+            ->method('getDice')
+            ->willReturn([$this->diceArrayMock[0], $this->diceArrayMock[2]]);
+        $selectedDiceCollectionMock
+            ->expects($this->any())
+            ->method('count')
+            ->willReturn(2);
+
+        $this->diceArrayMock[0]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+        $this->diceArrayMock[1]
+            ->expects($this->never())
+            ->method('roll');
+        $this->diceArrayMock[2]
+            ->expects($this->once())
+            ->method('roll')
+            ->with($expectedTimes);
+
+        $selectorMock = $this->createMock(DiceSelectorInterface::class);
+        $selectorMock
+            ->expects($this->once())
+            ->method('select')
+            ->willReturn($selectedDiceCollectionMock);
+
+        $this->sut->roll($selectorMock);
     }
 
     public function testGetSumThrowsExceptionWhenDiceCollectionMissing()
@@ -219,5 +255,23 @@ class DiceShakerTest extends TestCase
         $result = $this->sut->getSum($selectorMock);
 
         $this->assertSame(10, $result);
+    }
+
+    public function testGetTotalAliasOfGetSum()
+    {
+        $sut = $this->getMockBuilder(DiceShaker::class)
+            ->setMethods(['getSum'])
+            ->getMock();
+
+        $selectorMock = $this->createMock(DiceSelectorInterface::class);
+
+        $sut->expects($this->once())
+            ->method('getSum')
+            ->with($selectorMock, 2)
+            ->willReturn(4);
+
+        $result = $sut->getTotal($selectorMock, 2);
+
+        $this->assertSame(4, $result);
     }
 }
