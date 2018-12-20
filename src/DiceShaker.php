@@ -65,7 +65,10 @@ class DiceShaker
     private function ifNoDiceCollectionThrowException(string $message = null): self
     {
         if (empty($this->diceCollection)) {
-            throw new DiceShakerException($message ?? "DiceShaker needs to contain a DiceCollection.");
+            throw new DiceShakerException(
+                $message ?? "DiceShaker needs to contain a DiceCollection.",
+                DiceShakerException::DICE_COLLECTION_MISSING
+            );
         }
         return $this;
     }
@@ -78,7 +81,10 @@ class DiceShaker
     private function ifDiceCollectionNotNumericThrowException(string $message = null): self
     {
         if (! $this->diceCollection->isNumeric()) {
-            throw new DiceShakerException($message ?? "DiceShaker must only contain numeric Dice.");
+            throw new DiceShakerException(
+                $message ?? "DiceShaker must only contain numeric Dice.",
+                DiceShakerException::DICE_COLLECTION_NOT_NUMERIC
+            );
         }
         return $this;
     }
@@ -114,8 +120,12 @@ class DiceShaker
 
         $diceCollection = $this->getDiceCollection($selector);
 
-        return array_reduce($diceCollection->getDice(), function ($carry, Dice $dice) {
-            return $carry + $dice->getValue();
-        }, 0);
+        return array_reduce(
+            $diceCollection->getDice(),
+            function ($carry, Dice $dice) {
+                return $carry + $dice->getValue();
+            },
+            0
+        );
     }
 }

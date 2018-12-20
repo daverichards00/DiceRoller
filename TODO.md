@@ -31,3 +31,9 @@
   - greaterThanOrEqualTo X
   - random X
   - all ?
+  
+## General
+
+- Update README
+  - Split into multiple READMEs?
+- Add examples
