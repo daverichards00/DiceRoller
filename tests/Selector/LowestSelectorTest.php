@@ -3,14 +3,11 @@
 namespace daverichards00\DiceRollerTest\Selector;
 
 use daverichards00\DiceRoller\Collection\DiceCollection;
-use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
 use daverichards00\DiceRoller\Selector\LowestSelector;
 use InvalidArgumentException;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
-class LowestSelectorTest extends TestCase
+class LowestSelectorTest extends DiceSelectorTestCase
 {
     public function testSelectorCanBeInstantiated()
     {
@@ -40,54 +37,19 @@ class LowestSelectorTest extends TestCase
     public function testSelectorSelectsCorrectDice()
     {
         $inputCount = 4;
-        $diceA = $this->getDiceMockWithValue(2);
-        $diceB = $this->getDiceMockWithValue(5);
-        $diceC = $this->getDiceMockWithValue(3);
-        $diceD = $this->getDiceMockWithValue(6);
-        $diceE = $this->getDiceMockWithValue(1);
-        $diceF = $this->getDiceMockWithValue(4);
-        $diceG = $this->getDiceMockWithValue(2);
-        $inputDiceCollectionDice = [
-            $diceA,
-            $diceB,
-            $diceC,
-            $diceD,
-            $diceE,
-            $diceF,
-            $diceG,
-        ];
+        $inputDiceArray = $this->createDiceArrayFromValues([2, 5, 3, 6, 1, 4, 2]);
         $expectedOutputDiceCollectionDice = [
-            $diceE,
-            $diceA,
-            $diceG,
-            $diceC,
+            $inputDiceArray[4], // 1
+            $inputDiceArray[0], // 2
+            $inputDiceArray[6], // 2
+            $inputDiceArray[2], // 3
         ];
-        $inputDiceCollection = $this->getDiceCollectionMock($inputDiceCollectionDice);
+        $inputDiceCollection = $this->createDiceCollectionMockFromDiceArray($inputDiceArray);
 
         $sut = new LowestSelector($inputCount);
         $result = $sut->select($inputDiceCollection);
 
         $this->assertInstanceOf(DiceCollection::class, $result);
         $this->assertSame($expectedOutputDiceCollectionDice, $result->getDice());
-    }
-
-    private function getDiceMockWithValue($value): MockObject
-    {
-        $diceMock = $this->createMock(Dice::class);
-        $diceMock
-            ->expects($this->any())
-            ->method('getValue')
-            ->willReturn($value);
-        return $diceMock;
-    }
-
-    private function getDiceCollectionMock(array $inputDiceCollectionDice): MockObject
-    {
-        $inputDiceCollection = $this->createMock(DiceCollection::class);
-        $inputDiceCollection
-            ->expects($this->once())
-            ->method('getDice')
-            ->willReturn($inputDiceCollectionDice);
-        return $inputDiceCollection;
     }
 }

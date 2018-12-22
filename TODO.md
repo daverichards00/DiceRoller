@@ -28,7 +28,7 @@
 - TODO: Selector Methods
   - ~~highest X~~
   - ~~lowest X~~
-  - equalTo X
+  - ~~equalTo X~~
   - lessThan X
   - lessThanOrEqualTo X
   - greaterThan X
