@@ -60,6 +60,7 @@ class DiceShakerTest extends TestCase
     {
         $sut = new DiceShaker();
         $this->expectException(DiceShakerException::class);
+        $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_MISSING);
         $result = $sut->getDiceCollection();
     }
 
@@ -118,7 +119,9 @@ class DiceShakerTest extends TestCase
             ->method('roll')
             ->with($expectedTimes);
 
-        $this->sut->roll();
+        $result = $this->sut->roll();
+
+        $this->assertSame($result, $this->sut);
     }
 
     public function testDiceCanBeRolledMultipleTimes()
@@ -140,7 +143,9 @@ class DiceShakerTest extends TestCase
             ->method('roll')
             ->with($expectedTimes);
 
-        $this->sut->roll(null, 3);
+        $result = $this->sut->roll(null, 3);
+
+        $this->assertSame($result, $this->sut);
     }
 
     public function testDiceCollectionSelectionCanBeRolled()
@@ -175,7 +180,35 @@ class DiceShakerTest extends TestCase
             ->method('select')
             ->willReturn($selectedDiceCollectionMock);
 
-        $this->sut->roll($selectorMock);
+        $result = $this->sut->roll($selectorMock);
+
+        $this->assertSame($result, $this->sut);
+    }
+
+    public function testDiceCanNotBeKeptIfDiceCollectionIsEmpty()
+    {
+        $sut = new DiceShaker();
+        $selectorMock = $this->createMock(DiceSelectorInterface::class);
+        $this->expectException(DiceShakerException::class);
+        $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_MISSING);
+        $sut->keep($selectorMock);
+    }
+
+    public function testDiceCanBeKeptWithSelector()
+    {
+        $selectedDiceCollectionMock = $this->createMock(DiceCollection::class);
+        $selectorMock = $this->createMock(DiceSelectorInterface::class);
+
+        $selectorMock
+            ->expects($this->once())
+            ->method('select')
+            ->with($this->diceCollectionMock)
+            ->willReturn($selectedDiceCollectionMock);
+
+        $result = $this->sut->keep($selectorMock);
+
+        $this->assertSame($result, $this->sut);
+        $this->assertSame($this->sut->getDiceCollection(), $selectedDiceCollectionMock);
     }
 
     public function testGetSumThrowsExceptionWhenDiceCollectionMissing()

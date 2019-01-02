@@ -45,7 +45,10 @@ class DiceShaker
     public function getDiceCollection(DiceSelectorInterface $selector = null): DiceCollection
     {
         if (empty($this->diceCollection)) {
-            throw new DiceShakerException("DiceCollection has not been set!");
+            throw new DiceShakerException(
+                "DiceCollection has not been set!",
+                DiceShakerException::DICE_COLLECTION_MISSING
+            );
         }
 
         $diceCollection = $this->diceCollection;
@@ -105,6 +108,19 @@ class DiceShaker
         foreach ($diceCollection->getDice() as $dice) {
             $dice->roll($times);
         }
+
+        return $this;
+    }
+
+    /**
+     * @param DiceSelectorInterface $selector
+     * @return DiceShaker
+     */
+    public function keep(DiceSelectorInterface $selector): self
+    {
+        $this->ifNoDiceCollectionThrowException();
+
+        $this->setDiceCollection($this->getDiceCollection($selector));
 
         return $this;
     }

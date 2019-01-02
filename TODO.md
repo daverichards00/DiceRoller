@@ -7,7 +7,7 @@
 - TODO: Action Methods (Support Selectors)
   - ~~roll~~
   - discard
-  - keep
+  - ~~keep~~
 
 - TODO: Value Methods (Support Selectors)
   - ~~getSum~~
