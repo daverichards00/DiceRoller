@@ -127,6 +127,32 @@ class DiceShaker
 
     /**
      * @param DiceSelectorInterface $selector
+     * @return DiceShaker
+     */
+    public function discard(DiceSelectorInterface $selector): self
+    {
+        $this->ifNoDiceCollectionThrowException();
+
+        $currentDice = $this->getDiceCollection()->getDice();
+        $diceToDiscard = $this->getDiceCollection($selector)->getDice();
+
+        $diceToKeep = array_udiff(
+            $currentDice,
+            $diceToDiscard,
+            function (Dice $a, Dice $b): int {
+                // Not only do we need to compare objects exactly (which could be done with ===),
+                // but also need a consistent method of ordering the objects due to how array_udiff works.
+                return spl_object_hash($a) <=> spl_object_hash($b);
+            }
+        );
+
+        $this->setDiceCollection(new DiceCollection($diceToKeep));
+
+        return $this;
+    }
+
+    /**
+     * @param DiceSelectorInterface $selector
      * @return mixed
      * @throws DiceException
      * @throws DiceShakerException

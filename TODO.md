@@ -6,7 +6,7 @@
 
 - TODO: Action Methods (Support Selectors)
   - ~~roll~~
-  - discard
+  - ~~discard~~
   - ~~keep~~
 
 - TODO: Value Methods (Support Selectors)
