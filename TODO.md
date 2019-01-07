@@ -30,7 +30,7 @@
   - ~~lowest X~~
   - ~~equalTo X~~
   - ~~lessThan X~~
-  - lessThanOrEqualTo X
+  - ~~lessThanOrEqualTo X~~
   - greaterThan X
   - greaterThanOrEqualTo X
   - random X
