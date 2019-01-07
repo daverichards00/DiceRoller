@@ -16,7 +16,7 @@
   - ~~getCount~~
   - ~~getAverage~~
     - getMean alias
-  - getAllValues: array
+  - getValues: array
   - getHighestValue
   - getLowestValue
   - getMedian
@@ -29,7 +29,7 @@
   - ~~highest X~~
   - ~~lowest X~~
   - ~~equalTo X~~
-  - lessThan X
+  - ~~lessThan X~~
   - lessThanOrEqualTo X
   - greaterThan X
   - greaterThanOrEqualTo X

@@ -5,7 +5,6 @@ namespace daverichards00\DiceRollerTest\Selector;
 use daverichards00\DiceRoller\Collection\DiceCollection;
 use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
 use daverichards00\DiceRoller\Selector\EqualToSelector;
-use PHPUnit\Framework\TestCase;
 
 class EqualToSelectorTest extends DiceSelectorTestCase
 {
@@ -19,7 +18,7 @@ class EqualToSelectorTest extends DiceSelectorTestCase
     public function testSelectorSelectsCorrectDiceLoosely()
     {
         $value = 3;
-        $string = false;
+        $strict = false;
         $inputDiceArray = $this->createDiceArrayFromValues(['2', 5, 3, 6, '3', 4, 2]);
         $expectedOutputDiceCollectionDice = [
             $inputDiceArray[2], // int(3)
@@ -27,7 +26,7 @@ class EqualToSelectorTest extends DiceSelectorTestCase
         ];
         $inputDiceCollection = $this->createDiceCollectionMockFromDiceArray($inputDiceArray);
 
-        $sut = new EqualToSelector($value, $string);
+        $sut = new EqualToSelector($value, $strict);
         $result = $sut->select($inputDiceCollection);
 
         $this->assertInstanceOf(DiceCollection::class, $result);
@@ -37,14 +36,14 @@ class EqualToSelectorTest extends DiceSelectorTestCase
     public function testSelectorSelectsCorrectDiceStrictly()
     {
         $value = 3;
-        $string = true;
+        $strict = true;
         $inputDiceArray = $this->createDiceArrayFromValues(['2', 5, 3, 6, '3', 4, 2]);
         $expectedOutputDiceCollectionDice = [
             $inputDiceArray[2], // int(3)
         ];
         $inputDiceCollection = $this->createDiceCollectionMockFromDiceArray($inputDiceArray);
 
-        $sut = new EqualToSelector($value, $string);
+        $sut = new EqualToSelector($value, $strict);
         $result = $sut->select($inputDiceCollection);
 
         $this->assertInstanceOf(DiceCollection::class, $result);
