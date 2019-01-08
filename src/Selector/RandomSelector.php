@@ -3,6 +3,7 @@
 namespace daverichards00\DiceRoller\Selector;
 
 use daverichards00\DiceRoller\Collection\DiceCollection;
+use daverichards00\DiceRoller\Exception\DiceSelectorException;
 use InvalidArgumentException;
 
 class RandomSelector implements DiceSelectorInterface
@@ -32,7 +33,7 @@ class RandomSelector implements DiceSelectorInterface
 
         // shuffle() not suitable for cryptographic purposes
         if (! shuffle($dice)) {
-            throw new \RuntimeException("Unable to randomise Dice, shuffle function failed.");
+            throw new DiceSelectorException("Unable to randomise Dice, shuffle function failed.");
         }
 
         return new DiceCollection(
