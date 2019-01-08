@@ -2,17 +2,19 @@
 
 ## DiceShaker
 
+- Break tests down by method
+
 - TODO: Value Methods (Support Selectors)
-  - ~~getSum~~
-    - ~~getTotal alias~~
+  - ~~getSum~~ => getSumValue
+    - ~~getTotal alias~~ => getTotalValue
     - +modifier?
-  - ~~getCount~~
-  - ~~getAverage~~
-    - getMean alias
+  - ~~getCount~~ => getDiceQuantity
+  - ~~getAverage~~ => getAverageValue
+    - getMeanValue alias
   - getValues: array
   - getHighestValue
   - getLowestValue
-  - getMedian
+  - getMedianValue
 
 ## DiceSelector
 
@@ -24,7 +26,7 @@
   - ~~lessThanOrEqualTo X~~
   - ~~greaterThan X~~
   - ~~greaterThanOrEqualTo X~~
-  - random X
+  - ~~random X~~
   - all
   - specific
   

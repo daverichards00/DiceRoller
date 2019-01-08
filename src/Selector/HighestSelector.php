@@ -9,17 +9,25 @@ use InvalidArgumentException;
 class HighestSelector implements DiceSelectorInterface
 {
     /** @var int */
-    private $count;
+    private $quantity;
 
-    public function __construct(int $count = 1)
+    /**
+     * HighestSelector constructor.
+     * @param int $quantity
+     */
+    public function __construct(int $quantity = 1)
     {
-        if ($count < 1) {
-            throw new InvalidArgumentException("Count must be at least 1.");
+        if ($quantity < 1) {
+            throw new InvalidArgumentException("Quantity must be at least 1.");
         }
 
-        $this->count = $count;
+        $this->quantity = $quantity;
     }
 
+    /**
+     * @param DiceCollection $diceCollection
+     * @return DiceCollection
+     */
     public function select(DiceCollection $diceCollection): DiceCollection
     {
         $dice = $diceCollection->getDice();
@@ -29,7 +37,7 @@ class HighestSelector implements DiceSelectorInterface
         });
 
         return new DiceCollection(
-            array_slice($dice, 0, $this->count)
+            array_slice($dice, 0, $this->quantity)
         );
     }
 }

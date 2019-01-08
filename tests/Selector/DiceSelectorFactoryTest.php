@@ -10,6 +10,7 @@ use daverichards00\DiceRoller\Selector\HighestSelector;
 use daverichards00\DiceRoller\Selector\LessThanOrEqualToSelector;
 use daverichards00\DiceRoller\Selector\LessThanSelector;
 use daverichards00\DiceRoller\Selector\LowestSelector;
+use daverichards00\DiceRoller\Selector\RandomSelector;
 use PHPUnit\Framework\TestCase;
 
 class DiceSelectorFactoryTest extends TestCase
@@ -54,5 +55,11 @@ class DiceSelectorFactoryTest extends TestCase
     {
         $sut = DiceSelectorFactory::greaterThanOrEqualTo(2);
         $this->assertInstanceOf(GreaterThanOrEqualToSelector::class, $sut);
+    }
+
+    public function testRandomReturnsCorrectInstance()
+    {
+        $sut = DiceSelectorFactory::random(2);
+        $this->assertInstanceOf(RandomSelector::class, $sut);
     }
 }

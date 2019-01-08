@@ -2,17 +2,16 @@
 
 namespace daverichards00\DiceRoller\Selector;
 
-use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\Collection\DiceCollection;
 use InvalidArgumentException;
 
-class LowestSelector implements DiceSelectorInterface
+class RandomSelector implements DiceSelectorInterface
 {
     /** @var int */
     private $quantity;
 
     /**
-     * LowestSelector constructor.
+     * RandomSelector constructor.
      * @param int $quantity
      */
     public function __construct(int $quantity = 1)
@@ -20,7 +19,6 @@ class LowestSelector implements DiceSelectorInterface
         if ($quantity < 1) {
             throw new InvalidArgumentException("Quantity must be at least 1.");
         }
-
         $this->quantity = $quantity;
     }
 
@@ -32,9 +30,10 @@ class LowestSelector implements DiceSelectorInterface
     {
         $dice = $diceCollection->getDice();
 
-        usort($dice, function (Dice $a, Dice $b) {
-            return $a->getValue() <=> $b->getValue();
-        });
+        // shuffle() not suitable for cryptographic purposes
+        if (! shuffle($dice)) {
+            throw new \RuntimeException("Unable to randomise Dice, shuffle function failed.");
+        }
 
         return new DiceCollection(
             array_slice($dice, 0, $this->quantity)
