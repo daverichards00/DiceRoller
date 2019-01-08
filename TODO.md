@@ -31,8 +31,8 @@
   - ~~equalTo X~~
   - ~~lessThan X~~
   - ~~lessThanOrEqualTo X~~
-  - greaterThan X
-  - greaterThanOrEqualTo X
+  - ~~greaterThan X~~
+  - ~~greaterThanOrEqualTo X~~
   - random X
   - all
   - specific
