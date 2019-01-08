@@ -2,8 +2,6 @@
 
 ## DiceShaker
 
-- Break tests down by method
-
 - TODO: Value Methods (Support Selectors)
   - ~~getSum~~ => getSumValue
     - ~~getTotal alias~~ => getTotalValue
