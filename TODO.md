@@ -2,13 +2,6 @@
 
 ## DiceShaker
 
-- Tests
-
-- TODO: Action Methods (Support Selectors)
-  - ~~roll~~
-  - ~~discard~~
-  - ~~keep~~
-
 - TODO: Value Methods (Support Selectors)
   - ~~getSum~~
     - ~~getTotal alias~~
@@ -22,8 +15,6 @@
   - getMedian
 
 ## DiceSelector
-
-- Tests
 
 - TODO: Selector Methods
   - ~~highest X~~
