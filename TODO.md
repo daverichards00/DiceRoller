@@ -9,7 +9,8 @@
   - ~~getCount~~ => getDiceQuantity
   - ~~getAverage~~ => getAverageValue
     - getMeanValue alias
-  - getValues: array
+    - ~~getAverageValue alias~~
+  - ~~getValues~~
   - getHighestValue
   - getLowestValue
   - getMedianValue

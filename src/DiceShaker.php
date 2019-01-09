@@ -217,3 +217,19 @@ class DiceShaker
         ) / count($diceCollection);
     }
 }
+
+    /**
+     * @param DiceSelectorInterface|null $selector
+     * @return array
+     * @throws DiceShakerException
+     */
+    public function getValues(DiceSelectorInterface $selector = null): array
+    {
+        $this->ifNoDiceCollectionThrowException();
+
+        $diceCollection = $this->getDiceCollection($selector);
+
+        return array_map(function (Dice $dice) {
+            return $dice->getValue();
+        }, $diceCollection->getDice());
+    }
