@@ -249,4 +249,17 @@ class DiceShaker
             return $dice->getValue();
         }, $diceCollection->getDice());
     }
+
+    /**
+     * @param DiceSelectorInterface|null $selector
+     * @return mixed
+     */
+    public function getHighestValue(DiceSelectorInterface $selector = null)
+    {
+        $this->ifNoDiceCollectionThrowException();
+
+        $values = $this->getValues($selector);
+
+        return max($values);
+    }
 }

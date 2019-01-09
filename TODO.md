@@ -11,7 +11,7 @@
   - ~~getMeanValue~~
     - ~~getAverageValue alias~~
   - ~~getValues~~
-  - getHighestValue
+  - ~~getHighestValue~~
   - getLowestValue
   - getMedianValue
 
