@@ -7,24 +7,24 @@ use daverichards00\DiceRoller\DiceShaker;
 use daverichards00\DiceRoller\Exception\DiceShakerException;
 use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
 
-class DiceShakerGetCountTest extends DiceShakerTestCase
+class DiceShakerGetDiceQuantityTest extends DiceShakerTestCase
 {
-    public function testGetCountThrowsExceptionWhenDiceCollectionMissing()
+    public function testGetDiceQuantityThrowsExceptionWhenDiceCollectionMissing()
     {
         $sut = new DiceShaker();
         $this->expectException(DiceShakerException::class);
         $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_MISSING);
-        $sut->getCount();
+        $sut->getDiceQuantity();
     }
 
-    public function testGetCountReturnsTotalForDiceCollection()
+    public function testGetDiceQuantityReturnsTotalForDiceCollection()
     {
-        $result = $this->sut->getCount();
+        $result = $this->sut->getDiceQuantity();
 
         $this->assertSame(count($this->diceArrayMock), $result);
     }
 
-    public function testGetCountReturnsTotalForDiceCollectionSelection()
+    public function testGetDiceQuantityReturnsTotalForDiceCollectionSelection()
     {
         $selectedDiceCollectionMock = $this->createMock(DiceCollection::class);
         $selectedDiceCollectionMock
@@ -38,8 +38,26 @@ class DiceShakerGetCountTest extends DiceShakerTestCase
             ->method('select')
             ->willReturn($selectedDiceCollectionMock);
 
-        $result = $this->sut->getCount($selectorMock);
+        $result = $this->sut->getDiceQuantity($selectorMock);
 
         $this->assertSame(2, $result);
+    }
+
+    public function testGetNumberOfDiceAliasOfGetDiceQuantity()
+    {
+        $sut = $this->getMockBuilder(DiceShaker::class)
+            ->setMethods(['getDiceQuantity'])
+            ->getMock();
+
+        $selectorMock = $this->createMock(DiceSelectorInterface::class);
+
+        $sut->expects($this->once())
+            ->method('getDiceQuantity')
+            ->with($selectorMock, 2)
+            ->willReturn(4);
+
+        $result = $sut->getNumberOfDice($selectorMock, 2);
+
+        $this->assertSame(4, $result);
     }
 }

@@ -6,8 +6,8 @@
   - ~~getSumValue~~
     - ~~getTotalValue alias~~
     - +modifier?
-  - ~~getCount~~ => getDiceQuantity
-  - ~~getAverage~~ => getAverageValue
+  - ~~getDiceQuantity~~
+    - ~~getNumberOfDice alias~~
     - getMeanValue alias
     - ~~getAverageValue alias~~
   - ~~getValues~~

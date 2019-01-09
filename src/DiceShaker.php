@@ -187,13 +187,21 @@ class DiceShaker
      * @return int
      * @throws DiceShakerException
      */
-    public function getCount(DiceSelectorInterface $selector = null): int
+    public function getDiceQuantity(DiceSelectorInterface $selector = null): int
     {
         $this->ifNoDiceCollectionThrowException();
 
         $diceCollection = $this->getDiceCollection($selector);
 
         return count($diceCollection);
+    }
+
+    /**
+     * @see DiceShaker::getDiceQuantity() Alias of getDiceQuantity()
+     */
+    public function getNumberOfDice()
+    {
+        return call_user_func_array([$this, 'getDiceQuantity'], func_get_args());
     }
 
     /**
