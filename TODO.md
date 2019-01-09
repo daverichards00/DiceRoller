@@ -8,7 +8,7 @@
     - +modifier?
   - ~~getDiceQuantity~~
     - ~~getNumberOfDice alias~~
-    - getMeanValue alias
+  - ~~getMeanValue~~
     - ~~getAverageValue alias~~
   - ~~getValues~~
   - getHighestValue

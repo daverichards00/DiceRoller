@@ -207,8 +207,9 @@ class DiceShaker
     /**
      * @param DiceSelectorInterface|null $selector
      * @return float|int
+     * @throws DiceShakerException
      */
-    public function getAverage(DiceSelectorInterface $selector = null)
+    public function getMeanValue(DiceSelectorInterface $selector = null)
     {
         $this
             ->ifNoDiceCollectionThrowException()
@@ -224,7 +225,14 @@ class DiceShaker
             0
         ) / count($diceCollection);
     }
-}
+
+    /**
+     * @see DiceShaker::getMeanValue() Alias of getMeanValue()
+     */
+    public function getAverageValue()
+    {
+        return call_user_func_array([$this, 'getMeanValue'], func_get_args());
+    }
 
     /**
      * @param DiceSelectorInterface|null $selector
@@ -241,3 +249,4 @@ class DiceShaker
             return $dice->getValue();
         }, $diceCollection->getDice());
     }
+}

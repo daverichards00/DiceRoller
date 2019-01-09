@@ -9,15 +9,15 @@ use daverichards00\DiceRoller\Selector\DiceSelectorInterface;
 
 class DiceShakerGetAverageTest extends DiceShakerTestCase
 {
-    public function testGetAverageThrowsExceptionWhenDiceCollectionMissing()
+    public function testGetMeanThrowsExceptionWhenDiceCollectionMissing()
     {
         $sut = new DiceShaker();
         $this->expectException(DiceShakerException::class);
         $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_MISSING);
-        $sut->getAverage();
+        $sut->getMeanValue();
     }
 
-    public function testGetAverageThrowsExceptionWhenDiceCollectionNotNumeric()
+    public function testGetMeanThrowsExceptionWhenDiceCollectionNotNumeric()
     {
         $diceCollectionMock = $this->createMock(DiceCollection::class);
         $diceCollectionMock
@@ -29,10 +29,10 @@ class DiceShakerGetAverageTest extends DiceShakerTestCase
 
         $this->expectException(DiceShakerException::class);
         $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_NOT_NUMERIC);
-        $this->sut->getAverage();
+        $this->sut->getMeanValue();
     }
 
-    public function testGetAverageReturnsTotalForDiceCollection()
+    public function testGetMeanReturnsTotalForDiceCollection()
     {
         $this->diceArrayMock[0]
             ->expects($this->once())
@@ -47,12 +47,12 @@ class DiceShakerGetAverageTest extends DiceShakerTestCase
             ->method('getValue')
             ->willReturn(6);
 
-        $result = $this->sut->getAverage();
+        $result = $this->sut->getMeanValue();
 
         $this->assertSame(4, $result);
     }
 
-    public function testGetAverageReturnsTotalForDiceCollectionSelection()
+    public function testGetMeanReturnsTotalForDiceCollectionSelection()
     {
         $selectedDiceCollectionMock = $this->createMock(DiceCollection::class);
         $selectedDiceCollectionMock
@@ -83,8 +83,26 @@ class DiceShakerGetAverageTest extends DiceShakerTestCase
             ->method('select')
             ->willReturn($selectedDiceCollectionMock);
 
-        $result = $this->sut->getAverage($selectorMock);
+        $result = $this->sut->getMeanValue($selectorMock);
 
         $this->assertSame(4.5, $result);
+    }
+
+    public function testGetAverageAliasOfGetMean()
+    {
+        $sut = $this->getMockBuilder(DiceShaker::class)
+            ->setMethods(['getMeanValue'])
+            ->getMock();
+
+        $selectorMock = $this->createMock(DiceSelectorInterface::class);
+
+        $sut->expects($this->once())
+            ->method('getMeanValue')
+            ->with($selectorMock, 2)
+            ->willReturn(4);
+
+        $result = $sut->getAverageValue($selectorMock, 2);
+
+        $this->assertSame(4, $result);
     }
 }
