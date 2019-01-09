@@ -3,8 +3,8 @@
 ## DiceShaker
 
 - TODO: Value Methods (Support Selectors)
-  - ~~getSum~~ => getSumValue
-    - ~~getTotal alias~~ => getTotalValue
+  - ~~getSumValue~~
+    - ~~getTotalValue alias~~
     - +modifier?
   - ~~getCount~~ => getDiceQuantity
   - ~~getAverage~~ => getAverageValue

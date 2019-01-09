@@ -14,7 +14,7 @@ class DiceShakerGetSumTest extends DiceShakerTestCase
         $sut = new DiceShaker();
         $this->expectException(DiceShakerException::class);
         $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_MISSING);
-        $sut->getSum();
+        $sut->getSumValue();
     }
 
     public function testGetSumThrowsExceptionWhenDiceCollectionNotNumeric()
@@ -29,7 +29,7 @@ class DiceShakerGetSumTest extends DiceShakerTestCase
 
         $this->expectException(DiceShakerException::class);
         $this->expectExceptionCode(DiceShakerException::DICE_COLLECTION_NOT_NUMERIC);
-        $this->sut->getSum();
+        $this->sut->getSumValue();
     }
 
     public function testGetSumReturnsTotalForDiceCollection()
@@ -47,7 +47,7 @@ class DiceShakerGetSumTest extends DiceShakerTestCase
             ->method('getValue')
             ->willReturn(8);
 
-        $result = $this->sut->getSum();
+        $result = $this->sut->getSumValue();
 
         $this->assertSame(14, $result);
     }
@@ -83,7 +83,7 @@ class DiceShakerGetSumTest extends DiceShakerTestCase
             ->method('select')
             ->willReturn($selectedDiceCollectionMock);
 
-        $result = $this->sut->getSum($selectorMock);
+        $result = $this->sut->getSumValue($selectorMock);
 
         $this->assertSame(10, $result);
     }
@@ -91,17 +91,17 @@ class DiceShakerGetSumTest extends DiceShakerTestCase
     public function testGetTotalAliasOfGetSum()
     {
         $sut = $this->getMockBuilder(DiceShaker::class)
-            ->setMethods(['getSum'])
+            ->setMethods(['getSumValue'])
             ->getMock();
 
         $selectorMock = $this->createMock(DiceSelectorInterface::class);
 
         $sut->expects($this->once())
-            ->method('getSum')
+            ->method('getSumValue')
             ->with($selectorMock, 2)
             ->willReturn(4);
 
-        $result = $sut->getTotal($selectorMock, 2);
+        $result = $sut->getTotalValue($selectorMock, 2);
 
         $this->assertSame(4, $result);
     }

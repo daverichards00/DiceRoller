@@ -157,7 +157,7 @@ class DiceShaker
      * @throws DiceException
      * @throws DiceShakerException
      */
-    public function getSum(DiceSelectorInterface $selector = null)
+    public function getSumValue(DiceSelectorInterface $selector = null)
     {
         $this
             ->ifNoDiceCollectionThrowException()
@@ -175,11 +175,11 @@ class DiceShaker
     }
 
     /**
-     * @see DiceShaker::getSum() Alias of getSum()
+     * @see DiceShaker::getSumValue() Alias of getSumValue()
      */
-    public function getTotal()
+    public function getTotalValue()
     {
-        return call_user_func_array([$this, 'getSum'], func_get_args());
+        return call_user_func_array([$this, 'getSumValue'], func_get_args());
     }
 
     /**
