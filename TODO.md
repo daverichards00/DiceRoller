@@ -11,9 +11,10 @@
   - ~~getMeanValue~~
     - ~~getAverageValue alias~~
   - ~~getValues~~
+  - getValue
   - ~~getHighestValue~~
   - ~~getLowestValue~~
-  - getMedianValue
+  - ~~getMedianValue~~
 
 ## DiceSelector
 

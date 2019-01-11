@@ -213,7 +213,7 @@ class DiceShaker
     {
         $this
             ->ifNoDiceCollectionThrowException()
-            ->ifDiceCollectionNotNumericThrowException("DiceShaker can only sum numeric Dice.");
+            ->ifDiceCollectionNotNumericThrowException("DiceShaker can only mean numeric Dice.");
 
         $diceCollection = $this->getDiceCollection($selector);
 
@@ -232,6 +232,31 @@ class DiceShaker
     public function getAverageValue()
     {
         return call_user_func_array([$this, 'getMeanValue'], func_get_args());
+    }
+
+    /**
+     * @param DiceSelectorInterface|null $selector
+     * @return float|int
+     */
+    public function getMedianValue(DiceSelectorInterface $selector = null)
+    {
+        $this
+            ->ifNoDiceCollectionThrowException()
+            ->ifDiceCollectionNotNumericThrowException("DiceShaker can only get median of numeric Dice.");
+
+        $dice = $this->getDiceCollection($selector)->getDice();
+        $diceCount = count($dice);
+
+        if ($diceCount % 2 == 0) {
+            // Even number of values
+            $key1 = intval($diceCount / 2) - 1;
+            $key2 = intval($diceCount / 2);
+            return ($dice[$key1]->getValue() + $dice[$key2]->getValue()) / 2;
+        }
+
+        // Odd number of values
+        $key = intval(floor($diceCount / 2));
+        return $dice[$key]->getValue();
     }
 
     /**
