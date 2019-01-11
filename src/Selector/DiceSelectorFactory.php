@@ -76,4 +76,12 @@ class DiceSelectorFactory
     {
         return new RandomSelector($quantity);
     }
+
+    /**
+     * @return AllSelector
+     */
+    public static function all(): AllSelector
+    {
+        return new AllSelector();
+    }
 }

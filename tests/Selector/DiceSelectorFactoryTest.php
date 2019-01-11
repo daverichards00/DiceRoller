@@ -2,6 +2,7 @@
 
 namespace daverichards00\DiceRollerTest\Selector;
 
+use daverichards00\DiceRoller\Selector\AllSelector;
 use daverichards00\DiceRoller\Selector\DiceSelectorFactory;
 use daverichards00\DiceRoller\Selector\EqualToSelector;
 use daverichards00\DiceRoller\Selector\GreaterThanOrEqualToSelector;
@@ -61,5 +62,11 @@ class DiceSelectorFactoryTest extends TestCase
     {
         $sut = DiceSelectorFactory::random(2);
         $this->assertInstanceOf(RandomSelector::class, $sut);
+    }
+
+    public function testAllReturnsCorrectInstance()
+    {
+        $sut = DiceSelectorFactory::all();
+        $this->assertInstanceOf(AllSelector::class, $sut);
     }
 }
