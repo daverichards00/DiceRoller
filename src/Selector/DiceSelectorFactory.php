@@ -2,6 +2,8 @@
 
 namespace daverichards00\DiceRoller\Selector;
 
+use daverichards00\DiceRoller\Dice;
+
 class DiceSelectorFactory
 {
     /**
@@ -83,5 +85,14 @@ class DiceSelectorFactory
     public static function all(): AllSelector
     {
         return new AllSelector();
+    }
+
+    /**
+     * @param Dice[] $diceToSelect
+     * @return TheseSelector
+     */
+    public static function these(array $diceToSelect): TheseSelector
+    {
+        return new TheseSelector($diceToSelect);
     }
 }

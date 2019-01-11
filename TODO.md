@@ -28,7 +28,7 @@
   - ~~greaterThanOrEqualTo X~~
   - ~~random X~~
   - ~~all~~
-  - specific
+  - ~~specific~~
   - equalTo to support multiple possible values
   
 ## General

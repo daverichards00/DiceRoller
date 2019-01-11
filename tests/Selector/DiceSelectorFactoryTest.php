@@ -2,6 +2,7 @@
 
 namespace daverichards00\DiceRollerTest\Selector;
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\Selector\AllSelector;
 use daverichards00\DiceRoller\Selector\DiceSelectorFactory;
 use daverichards00\DiceRoller\Selector\EqualToSelector;
@@ -12,6 +13,7 @@ use daverichards00\DiceRoller\Selector\LessThanOrEqualToSelector;
 use daverichards00\DiceRoller\Selector\LessThanSelector;
 use daverichards00\DiceRoller\Selector\LowestSelector;
 use daverichards00\DiceRoller\Selector\RandomSelector;
+use daverichards00\DiceRoller\Selector\TheseSelector;
 use PHPUnit\Framework\TestCase;
 
 class DiceSelectorFactoryTest extends TestCase
@@ -68,5 +70,11 @@ class DiceSelectorFactoryTest extends TestCase
     {
         $sut = DiceSelectorFactory::all();
         $this->assertInstanceOf(AllSelector::class, $sut);
+    }
+
+    public function testTheseReturnsCorrectInstance()
+    {
+        $sut = DiceSelectorFactory::these([$this->createMock(Dice::class)]);
+        $this->assertInstanceOf(TheseSelector::class, $sut);
     }
 }
