@@ -279,6 +279,23 @@ class DiceShaker
      * @param DiceSelectorInterface|null $selector
      * @return mixed
      */
+    public function getValue(DiceSelectorInterface $selector = null)
+    {
+        $this->ifNoDiceCollectionThrowException();
+
+        $diceCollection = $this->getDiceCollection($selector);
+
+        if (count($diceCollection) != 1) {
+            throw new DiceShakerException("Can only get a single value if there is a single Dice in the collection.");
+        }
+
+        return $diceCollection->getDice()[0]->getValue();
+    }
+
+    /**
+     * @param DiceSelectorInterface|null $selector
+     * @return mixed
+     */
     public function getHighestValue(DiceSelectorInterface $selector = null)
     {
         $this->ifNoDiceCollectionThrowException();
