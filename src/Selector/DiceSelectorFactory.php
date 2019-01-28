@@ -95,4 +95,14 @@ class DiceSelectorFactory
     {
         return new TheseSelector($diceToSelect);
     }
+
+    /**
+     * @param array $values
+     * @param bool $strict
+     * @return InSelector
+     */
+    public static function in(array $values, bool $strict = false): InSelector
+    {
+        return new InSelector($values, $strict);
+    }
 }

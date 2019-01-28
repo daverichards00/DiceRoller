@@ -9,6 +9,7 @@ use daverichards00\DiceRoller\Selector\EqualToSelector;
 use daverichards00\DiceRoller\Selector\GreaterThanOrEqualToSelector;
 use daverichards00\DiceRoller\Selector\GreaterThanSelector;
 use daverichards00\DiceRoller\Selector\HighestSelector;
+use daverichards00\DiceRoller\Selector\InSelector;
 use daverichards00\DiceRoller\Selector\LessThanOrEqualToSelector;
 use daverichards00\DiceRoller\Selector\LessThanSelector;
 use daverichards00\DiceRoller\Selector\LowestSelector;
@@ -76,5 +77,11 @@ class DiceSelectorFactoryTest extends TestCase
     {
         $sut = DiceSelectorFactory::these([$this->createMock(Dice::class)]);
         $this->assertInstanceOf(TheseSelector::class, $sut);
+    }
+
+    public function testInReturnsCorrectInstance()
+    {
+        $sut = DiceSelectorFactory::in([1, 2, 3], true);
+        $this->assertInstanceOf(InSelector::class, $sut);
     }
 }
