@@ -1,6 +1,5 @@
 # TODO
 
-- Dice class to include constants to represent d4, d4, d8, d10, "tens" d10, d12, d20 & dF.
 - New selectors: excludeLowest(x) and excludeHighest(x)
 - New selector: notEqualTo
 - New selector: notIn

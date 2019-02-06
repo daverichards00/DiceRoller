@@ -30,6 +30,18 @@ class DiceTest extends TestCase
         $this->sut = new Dice(20, $this->rollerMock);
     }
 
+    public function testConstantsValues()
+    {
+        $this->assertSame([1, 2, 3, 4], Dice::D4);
+        $this->assertSame([1, 2, 3, 4, 5, 6], Dice::D6);
+        $this->assertSame([1, 2, 3, 4, 5, 6, 7, 8], Dice::D8);
+        $this->assertSame([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Dice::D10);
+        $this->assertSame([0, 10, 20, 30, 40, 50, 60, 70, 80, 90], Dice::TENS_D10);
+        $this->assertSame([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Dice::D12);
+        $this->assertSame([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Dice::D20);
+        $this->assertSame([-1, 0, 1], Dice::DF);
+    }
+
     public function testDiceCanBeInstantiated()
     {
         $sut = new Dice(2);

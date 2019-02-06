@@ -22,6 +22,9 @@ $d6 = new Dice(6);
 
 // Create a d100 (Number range 1 - 100)
 $d100 = new Dice(100);
+
+// Or use a predefined constant
+$d10 = new Dice(Dice::D10);
 ```
 
 Create a `Dice` with custom sides by passing an array of numbers or strings: 
@@ -381,13 +384,14 @@ Dice are present.
 ```php
 <?php
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 
 // In a single line:
-$value = (new DiceShaker(6, 2))->roll()->getTotalValue();
+$value = (new DiceShaker(Dice::D6, 2))->roll()->getTotalValue();
 
 // Or, reuse the shaker multiple times:
-$shaker = new DiceShaker(6, 2);
+$shaker = new DiceShaker(Dice::D6, 2);
 
 $value1 = $shaker->roll()->getTotalValue();
 $value2 = $shaker->roll()->getTotalValue();
@@ -439,14 +443,11 @@ $dice = new Dice(100);
 $value = $dice->roll()->getValue();
 
 // Or, simulate using a "tens" d10 and a standard d10 dice.
-$shaker = new DiceShaker([
-    [0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-]);
+$shaker = new DiceShaker([Dice::TENS_D10, Dice::D10]);
 $value = $shaker->roll()->getTotalValue() + 1;
 
 // Or, simulate using 2d10
-$shaker = new DiceShaker([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 2);
+$shaker = new DiceShaker(Dice::D10, 2);
 $shaker->roll();
 $value = ($shaker->getValues()[0] * 10) + $shaker->getValues()[1] + 1;
 ```
@@ -470,10 +471,11 @@ $value += $shaker->roll()->getTotalValue() + 4;
 ```php
 <?php
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 use daverichards00\DiceRoller\Selector\DiceSelectorFactory as Select;
 
-$shaker = new DiceShaker(10, 8);
+$shaker = new DiceShaker(Dice::D10, 8);
 
 $value = $shaker->roll()->getTotalValue(Select::highest(6));
 ```
@@ -482,10 +484,11 @@ $value = $shaker->roll()->getTotalValue(Select::highest(6));
 ```php
 <?php
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 use daverichards00\DiceRoller\Selector\DiceSelectorFactory as Select;
 
-$shaker = new DiceShaker(10, 6);
+$shaker = new DiceShaker(Dice::D10, 6);
 
 $value = $shaker->roll()->getNumberOfDice(Select::greaterThanOrEqualTo(8));
 ```
@@ -494,10 +497,11 @@ $value = $shaker->roll()->getNumberOfDice(Select::greaterThanOrEqualTo(8));
 ```php
 <?php
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 
 // Numerical:
-$shaker = new DiceShaker([-1, 0, 1], 4);
+$shaker = new DiceShaker(Dice::DF, 4);
 $value = $shaker->roll()->getTotalValue();
 
 // Or, for visual representation:

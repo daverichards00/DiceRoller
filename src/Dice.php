@@ -12,6 +12,16 @@ use InvalidArgumentException;
 
 class Dice
 {
+    // Default Dice configurations
+    const D4 = [1, 2, 3, 4];
+    const D6 = [1, 2, 3, 4, 5, 6];
+    const D8 = [1, 2, 3, 4, 5, 6, 7, 8];
+    const D10 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const TENS_D10 = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+    const D12 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const D20 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    const DF = [-1, 0, 1];
+
     /** @var RollerInterface */
     private $roller;
 
