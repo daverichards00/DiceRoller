@@ -174,11 +174,7 @@ It can also be done by passing an array of scalar values, that will be used to c
 
 use daverichards00\DiceRoller\DiceShaker;
 
-$diceShaker = new DiceShaker([
-    6,
-    20,
-    'red',
-]);
+$diceShaker = new DiceShaker([6, 20, 'red']);
 ```
 
 Or, you can pass a single `Dice`/scalar and a quantity:
@@ -500,6 +496,7 @@ $value = $shaker->roll()->getNumberOfDice(Select::greaterThanOrEqualTo(8));
 
 use daverichards00\DiceRoller\DiceShaker;
 
+// Numerical:
 $shaker = new DiceShaker([-1, 0, 1], 4);
 $value = $shaker->roll()->getTotalValue();
 
