@@ -413,10 +413,11 @@ $value = $shaker->roll()->getTotalValue();
 ```php
 <?php
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 use daverichards00\DiceRoller\Selector\DiceSelectorFactory as Select;
 
-$shaker = new DiceShaker(6, 4);
+$shaker = new DiceShaker(Dice::D6, 4);
 
 // Calculating the total of the highest 3 Dice
 $value = $shaker
@@ -458,9 +459,10 @@ this is easier than treating 0 as 100 and still results in an evenly balanced ra
 ```php
 <?php
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 
-$shaker = new DiceShaker(6, 2);
+$shaker = new DiceShaker(Dice::D6, 2);
 
 $value  = $shaker->roll()->getTotalValue() + 4;
 $value += $shaker->roll()->getTotalValue() + 4;
@@ -513,9 +515,10 @@ $values = $shaker->roll()->getValues();
 ```php
 <?php
 
+use daverichards00\DiceRoller\Dice;
 use daverichards00\DiceRoller\DiceShaker;
 
-$shaker = new DiceShaker(6, 2);
+$shaker = new DiceShaker(Dice::D6, 2);
 $shaker->roll();
 
 $value = ($shaker->getValues()[0] * 10) + $shaker->getValues()[1];
